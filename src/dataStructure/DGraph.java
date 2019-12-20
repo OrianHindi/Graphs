@@ -7,6 +7,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Fixes:
+ * need to fix nullpoint if get edge.* or node.* throws nullpointexception.
+ */
+
+
+
 public class DGraph implements graph{
 	private HashMap<Integer,node_data> Nodemap= new HashMap<>();
 	private HashMap<Integer,HashMap<Integer,edge_data>> Edgemap= new HashMap<>();
@@ -48,7 +55,7 @@ public class DGraph implements graph{
 
 
 	public void connect(int src, int dest, double w) {
-		edge_data temp = new Edge(src,dest,w,"",0);
+		edge_data temp = new Edge(src,dest,w);
 		if(this.getNode(src)!=null && this.getNode(dest)!=null) {  // the nodes isnt exist.
 			if (this.getEdge(src, dest) == null) {  // the edge isnt exist.
 				if(this.Edgemap.get(src) == null) {   // the Hashmap of neighburs isnt exist

@@ -14,6 +14,13 @@ public class Edge implements edge_data {
         this.info=null;
         this.tag=0;
     }
+    public Edge(int src,int dest,double weight){
+        this.src=src;
+        this.dest=dest;
+        this.weight=weight;
+        this.info="";
+        this.tag=0;
+    }
     public Edge(int src,int dest,double weight,String info,int tag){
         this.src=src;
         this.dest=dest;
@@ -63,5 +70,8 @@ public class Edge implements edge_data {
     @Override
     public void setTag(int t) {
         this.tag=t;
+    }
+    public String toString(){
+        return "<" + this.getSrc() + "," + this.getDest() + "," + this.getWeight() + ">";
     }
 }
