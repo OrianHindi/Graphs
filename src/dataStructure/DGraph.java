@@ -14,6 +14,7 @@ public class DGraph implements graph{
 	private int nodeSize;
 	private int MC;
 
+
 	public DGraph(){
 		this.Nodemap= new HashMap<>();
 		this.Edgemap = new HashMap<>();
@@ -22,13 +23,12 @@ public class DGraph implements graph{
 		this.MC=0;
 	}
 
-	@Override
+
 	public node_data getNode(int key) {
 		return this.Nodemap.get(key);
-
 	}
 
-	@Override
+
 	public edge_data getEdge(int src, int dest) {
 		try {
 			return this.Edgemap.get(src).get(dest);
@@ -39,14 +39,14 @@ public class DGraph implements graph{
 
 	}
 
-	@Override
+
 	public void addNode(node_data n) {
 		this.Nodemap.put(n.getKey(),n);
 		this.nodeSize++;
 		this.MC++;
 	}
 
-	@Override
+
 	public void connect(int src, int dest, double w) {
 		edge_data temp = new Edge(src,dest,w,"",0);
 		if(this.getNode(src)!=null && this.getNode(dest)!=null) {  // the nodes isnt exist.
@@ -69,17 +69,17 @@ public class DGraph implements graph{
 		this.MC++;
 	}
 
-	@Override
+
 	public Collection<node_data> getV() {
 		return this.Nodemap.values();
 	}
 
-	@Override
+
 	public Collection<edge_data> getE(int node_id) {
 		return this.Edgemap.get(node_id).values();
 	}
 
-	@Override
+
 	public node_data removeNode(int key) {
 		node_data removed = this.getNode(key);
 		if(removed!=null){
@@ -99,7 +99,7 @@ public class DGraph implements graph{
 		return removed;
 	}
 
-	@Override
+
 	public edge_data removeEdge(int src, int dest) {
 		edge_data temp =this.getEdge(src,dest);
 		if(temp!=null) {
@@ -112,17 +112,17 @@ public class DGraph implements graph{
 		return temp;
 	}
 
-	@Override
+
 	public int nodeSize() {
 		return this.nodeSize;
 	}
 
-	@Override
+
 	public int edgeSize() {
 		return this.edgeSize;
 	}
 
-	@Override
+
 	public int getMC() {
 		return this.MC;
 	}
@@ -143,12 +143,13 @@ public class DGraph implements graph{
 		d.connect(r.getKey(),a.getKey(),4);
 		d.connect(a.getKey(),b.getKey(),4);
 		d.connect(a.getKey(),c.getKey(),50);
-		System.out.println(d.getEdge(1,5).getWeight());
-		d.removeNode(1);
-		d.removeEdge(1,3);
-		edge_data t = d.getEdge(1,3);
-		System.out.println(d.Edgemap);
-		System.out.println(d.Nodemap);
+		edge_data pq=d.getEdge(5,1);
+		System.out.println(pq.getWeight());
+//		d.removeNode(1);
+//		d.removeEdge(1,3);
+//		edge_data t = d.getEdge(1,3);
+//		System.out.println(d.Edgemap);
+//		System.out.println(d.Nodemap);
 	}
 
 }

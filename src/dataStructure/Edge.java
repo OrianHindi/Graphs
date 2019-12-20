@@ -41,6 +41,7 @@ public class Edge implements edge_data {
 
     @Override
     public double getWeight() {
+
         return this.weight;
     }
 
