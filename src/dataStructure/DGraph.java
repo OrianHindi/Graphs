@@ -134,6 +134,10 @@ public class DGraph implements graph{
 		return this.MC;
 	}
 
+	public HashMap getHash(){ return this.Nodemap; }
+
+	public HashMap getEdgeHash(){return this.Edgemap;}
+
 	public static void main(String[] args) {
 		Point3D x = new Point3D(1,4,0);
 		Point3D y = new Point3D(2,5,0);
