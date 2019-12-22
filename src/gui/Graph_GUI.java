@@ -15,7 +15,7 @@ public class Graph_GUI {
         StdDraw.setXscale(-100,100);
         StdDraw.setYscale(-100,100);
         StdDraw.setPenColor(Color.RED);
-        StdDraw.setPenRadius(0.05);
+        StdDraw.setPenRadius(0.15);
         Iterator it = d.getHash().entrySet().iterator();
         while(it.hasNext()){
             Map.Entry map =(Map.Entry)it.next();
@@ -25,7 +25,7 @@ public class Graph_GUI {
             StdDraw.text(p.x(),p.y()+0.5,""+d.getNode(key).getKey());
         }
         StdDraw.setPenColor(Color.BLACK);
-        StdDraw.setPenRadius(0.0005);
+        StdDraw.setPenRadius(0.01);
         Iterator it2 =d.getEdgeHash().entrySet().iterator();
         while(it2.hasNext()){
             Map.Entry map2 = (Map.Entry)it2.next();

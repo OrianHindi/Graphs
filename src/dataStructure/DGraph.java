@@ -1,7 +1,9 @@
 package dataStructure;
 
+import gui.Graph_GUI;
 import utils.Point3D;
 
+import java.sql.SQLOutput;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,7 +34,13 @@ public class DGraph implements graph{
 
 
 	public node_data getNode(int key) {
-		return this.Nodemap.get(key);
+		try {
+			return this.Nodemap.get(key);
+		}
+		catch (Exception e){
+
+			throw new RuntimeException(" the Node isnt exist.");
+		}
 	}
 
 
@@ -139,9 +147,9 @@ public class DGraph implements graph{
 	public HashMap getEdgeHash(){return this.Edgemap;}
 
 	public static void main(String[] args) {
-		Point3D x = new Point3D(1,4,0);
-		Point3D y = new Point3D(2,5,0);
-		Point3D q = new Point3D(4,3,0);
+		Point3D x = new Point3D(14,4,0);
+		Point3D y = new Point3D(-75,14,0);
+		Point3D q = new Point3D(80,5,0);
 		node_data a = new Node(1,2,3,x,"asf");
 		node_data b = new Node(3,4,6,y,"ads");
 		node_data c = new Node(5,50,50,q,"sf");
@@ -155,7 +163,9 @@ public class DGraph implements graph{
 		d.connect(a.getKey(),b.getKey(),4);
 		d.connect(a.getKey(),c.getKey(),50);
 		edge_data pq=d.getEdge(5,1);
-		System.out.println(pq.getWeight());
+
+
+		Graph_GUI.printGraph(d);
 //		d.removeNode(1);
 //		d.removeEdge(1,3);
 //		edge_data t = d.getEdge(1,3);

@@ -34,7 +34,7 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public boolean isConnected() {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
