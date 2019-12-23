@@ -164,13 +164,12 @@ public class DGraph implements graph{
 		d.addNode(a);
 		d.addNode(b);
 		d.addNode(c);
-<<<<<<< HEAD
 		d.connect(a.getKey(),b.getKey(),4);
 		d.connect(b.getKey(),c.getKey(),50);
 		d.connect(c.getKey(),b.getKey(),25);
 		d.connect(b.getKey(),a.getKey(),13);
 		System.out.println(d.Edgemap.toString());
-=======
+
 		d.addNode(a1);
 		d.addNode(b2);
 		d.addNode(c3);
@@ -182,15 +181,8 @@ public class DGraph implements graph{
 		d.connect(a1.getKey(),c3.getKey(),1);
 		d.connect(b.getKey(),c3.getKey(),1);
 
->>>>>>> 3bad1d0d8735f11060cfadd106bfbd1a8137a056
 		Graph_Algo p = new Graph_Algo(d);
 		System.out.println(p.shortestPathDist(1,6));
-
-//		d.removeNode(1);
-//		d.removeEdge(1,3);
-//		edge_data t = d.getEdge(1,3);
-//		System.out.println(d.Edgemap);
-//		System.out.println(d.Nodemap);
 	}
 
 }

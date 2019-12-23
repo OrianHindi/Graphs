@@ -74,14 +74,15 @@ public class Graph_Algo implements graph_algorithms{
 	private void DFSUtil(node_data n){
 		n.setTag(1);
 		Collection<edge_data> temp =this.GA.getE(n.getKey());
+		if(temp!=null) {
 			for (edge_data edge : temp) {
 				if (this.GA.getNode(edge.getDest()) != null && this.GA.getE(edge.getDest()) != null && this.GA.getNode(edge.getDest()).getTag() == 0) {
 					DFSUtil(this.GA.getNode(edge.getDest()));
 				}
 			}
 		}
-
-	   private void transPose(graph g) {
+	}
+	private void transPose(graph g) {
 		Iterator it = g.getV().iterator();
 		while(it.hasNext()){
 			node_data temp = (node_data)it.next();
@@ -93,43 +94,28 @@ public class Graph_Algo implements graph_algorithms{
 					g.getEdge(temp1.getDest(),temp1.getSrc()).setTag(1);
 					g.removeEdge(temp1.getSrc(),temp1.getDest());
 					it1 =g.getE(temp.getKey()).iterator();
-					}
 				}
 			}
-	  }
-
-		public void setNodes () {
-			Collection<node_data>  temp = this.GA.getV();
-			for(node_data node : temp) {
-				node.setTag(0);
-				node.setWeight(Integer.MAX_VALUE);
-			}
 		}
+	}
+
+	public void setNodes () {
+		Collection<node_data>  temp = this.GA.getV();
+		for(node_data node : temp) {
+			node.setTag(0);
+			node.setWeight(Integer.MAX_VALUE);
+		}
+	}
 
 
 
-@Override
+	@Override
 	public double shortestPathDist(int src, int dest) {
-<<<<<<< HEAD
-
-		return 0;
-	}
-
-
-	 private void tagNWeightZero(){
-		 Collection<node_data>  temp = this.GA.getV();
-		 for(node_data node : temp){
-			 node.setTag(0);
-		 	 node.setWeight(Integer.MAX_VALUE);
-		 }
-
-	}
-=======
-	setNodes();
-	node_data temp = this.GA.getNode(src);
-	temp.setWeight(0);
-	STPRec(temp,this.GA.getNode(dest));
-	double ans = this.GA.getNode(dest).getWeight();
+		setNodes();
+		node_data temp = this.GA.getNode(src);
+		temp.setWeight(0);
+		STPRec(temp,this.GA.getNode(dest));
+		double ans = this.GA.getNode(dest).getWeight();
 
 
 		return ans;
@@ -150,7 +136,6 @@ public class Graph_Algo implements graph_algorithms{
 	}
 
 
->>>>>>> 3bad1d0d8735f11060cfadd106bfbd1a8137a056
 	@Override
 	public List<node_data> shortestPath(int src, int dest) {
 		// TODO Auto-generated method stub
@@ -165,9 +150,42 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public graph copy() {
-		graph copy;
-
+		graph copy = new DGraph();
 		return null;
 	}
 
 }
+//	Collection<node_data> vertex = this.GA.getV();
+//	tagZero();
+//	node_data srcNode;
+//	boolean ans = true;
+//		for (node_data node: ans) {
+//				srcNode=node;
+//				int sum = connect1(node);
+//				if(sum!= vertex.size()){
+//				return false;
+//				}
+//				else{
+//				ans=ans&&connect2();
+//				}
+//
+//				return ans;
+//				}
+//
+//
+//
+//				return false;
+//
+//				}
+//private int connect1(node_data node){
+//		if(node.getTag()==1){
+//		return 0;
+//		}
+//		node.setTag(1);
+//		Collection<edge_data> neigburs = this.GA.getE(node.getKey());
+//		int counter=1;
+//		for(edge_data edge : neigburs){
+//		counter+=connect1(this.GA.getNode(edge.getDest()));
+//		}
+//		return counter;
+//		}
