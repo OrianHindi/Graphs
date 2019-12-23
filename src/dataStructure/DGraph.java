@@ -2,7 +2,7 @@ package dataStructure;
 
 import gui.Graph_GUI;
 import utils.Point3D;
-
+import algorithms.*;
 import java.sql.SQLOutput;
 import java.util.Collection;
 import java.util.HashMap;
@@ -91,7 +91,12 @@ public class DGraph implements graph{
 
 
 	public Collection<edge_data> getE(int node_id) {
-		return this.Edgemap.get(node_id).values();
+		try {
+			return this.Edgemap.get(node_id).values();
+		}
+		catch (NullPointerException e){
+			return null;
+		}
 	}
 
 
@@ -153,19 +158,18 @@ public class DGraph implements graph{
 		node_data a = new Node(1,2,3,x,"asf");
 		node_data b = new Node(3,4,6,y,"ads");
 		node_data c = new Node(5,50,50,q,"sf");
-		node_data r = new Node(6,4,50,q,"sf");
 		DGraph d = new DGraph();
 		d.addNode(a);
 		d.addNode(b);
 		d.addNode(c);
-		d.addNode(r);
-		d.connect(r.getKey(),a.getKey(),4);
 		d.connect(a.getKey(),b.getKey(),4);
-		d.connect(a.getKey(),c.getKey(),50);
-		edge_data pq=d.getEdge(5,1);
+		d.connect(b.getKey(),c.getKey(),50);
+		d.connect(c.getKey(),a.getKey(),25);
+		System.out.println(d.Edgemap.toString());
+		Graph_Algo p = new Graph_Algo(d);
+		System.out.println(p.isConnected());
 
-
-		Graph_GUI.printGraph(d);
+		System.out.println(d.Edgemap.toString());
 //		d.removeNode(1);
 //		d.removeEdge(1,3);
 //		edge_data t = d.getEdge(1,3);
