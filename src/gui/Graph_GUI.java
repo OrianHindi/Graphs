@@ -1,10 +1,12 @@
 package gui;
-import dataStructure.*;
+import dataStructure.DGraph;
+import dataStructure.Node;
+import dataStructure.edge_data;
+import dataStructure.node_data;
 import utils.Point3D;
 import utils.StdDraw;
 
 import java.awt.*;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;

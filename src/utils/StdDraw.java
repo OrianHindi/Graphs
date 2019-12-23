@@ -1,4 +1,21 @@
 package utils;
+import algorithms.Graph_Algo;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.DirectColorModel;
+import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
+import java.util.TreeSet;
 
 //package stdDraw;
 // https://introcs.cs.princeton.edu/java/stdlib/StdDraw.java.html
@@ -26,54 +43,6 @@ package utils;
  *       images and strings
  *
  ******************************************************************************/
-
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.FileDialog;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import java.awt.geom.Arc2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-
-import java.awt.image.BufferedImage;
-import java.awt.image.DirectColorModel;
-import java.awt.image.WritableRaster;
-
-import java.io.File;
-import java.io.IOException;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import java.util.LinkedList;
-import java.util.TreeSet;
-import java.util.NoSuchElementException;
-import javax.imageio.ImageIO;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
 
 /**
  *  The {@code StdDraw} class provides a basic capability for
@@ -715,15 +684,39 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	// create the menu bar (changed to private)
 	private static JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
+
 		JMenu menu = new JMenu("File");
 		menuBar.add(menu);
 		JMenuItem menuItem1 = new JMenuItem(" Save...   ");
 		menuItem1.addActionListener(std);
 		menuItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		menu.add(menuItem1);
+
+		JMenu Algo = new JMenu("Algo");
+		menuBar.add(Algo);
+		JMenuItem save = new JMenuItem("Save");
+		JMenuItem init = new JMenuItem("Init");
+		JMenuItem isConnected = new JMenuItem("isConnected");
+		Algo.add(save);
+		Algo.add(init);
+		Algo.add(isConnected);
+
+		isConnected.addActionListener(new ActionListener() {
+		 Graph_Algo a = new Graph_Algo();
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				a.isConnected();
+			}
+		});
+		//repaint();
+
+
+
+
 		return menuBar;
 	}
+
 
 
 	/***************************************************************************
