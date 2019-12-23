@@ -52,9 +52,6 @@ public class Graph_Algo implements graph_algorithms{
 		for (node_data node : s) {
 			if(node.getTag()==0)return false;
 		}
-//		while (it.hasNext()){
-//			node_data end =(node_data) it.next();
-//		}
 		transPose(this.GA);
 		tagZero();
 		Collection<node_data> s1 =this.GA.getV();
@@ -64,9 +61,6 @@ public class Graph_Algo implements graph_algorithms{
 		for (node_data node1: s1) {
 			if(node1.getTag()==0) return false;
 		}
-//		while(it1.hasNext()){
-//			node_data end2=(node_data)it1.next();
-//		}
 		transPose(this.GA);
 
 		return true;
@@ -80,14 +74,13 @@ public class Graph_Algo implements graph_algorithms{
 	private void DFSUtil(node_data n){
 		n.setTag(1);
 		Collection<edge_data> temp =this.GA.getE(n.getKey());
-		if(temp!=null) {
 			for (edge_data edge : temp) {
 				if (this.GA.getNode(edge.getDest()) != null && this.GA.getE(edge.getDest()) != null && this.GA.getNode(edge.getDest()).getTag() == 0) {
 					DFSUtil(this.GA.getNode(edge.getDest()));
 				}
 			}
 		}
-	}
+
 	   private void transPose(graph g) {
 		Iterator it = g.getV().iterator();
 		while(it.hasNext()){
@@ -107,10 +100,19 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public double shortestPathDist(int src, int dest) {
-		// TODO Auto-generated method stub
+
 		return 0;
 	}
 
+
+	 private void tagNWeightZero(){
+		 Collection<node_data>  temp = this.GA.getV();
+		 for(node_data node : temp){
+			 node.setTag(0);
+		 	 node.setWeight(Integer.MAX_VALUE);
+		 }
+
+	}
 	@Override
 	public List<node_data> shortestPath(int src, int dest) {
 		// TODO Auto-generated method stub
@@ -125,42 +127,9 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public graph copy() {
-		graph copy = new DGraph();
+		graph copy;
+
 		return null;
 	}
 
 }
-//	Collection<node_data> vertex = this.GA.getV();
-//	tagZero();
-//	node_data srcNode;
-//	boolean ans = true;
-//		for (node_data node: ans) {
-//				srcNode=node;
-//				int sum = connect1(node);
-//				if(sum!= vertex.size()){
-//				return false;
-//				}
-//				else{
-//				ans=ans&&connect2();
-//				}
-//
-//				return ans;
-//				}
-//
-//
-//
-//				return false;
-//
-//				}
-//private int connect1(node_data node){
-//		if(node.getTag()==1){
-//		return 0;
-//		}
-//		node.setTag(1);
-//		Collection<edge_data> neigburs = this.GA.getE(node.getKey());
-//		int counter=1;
-//		for(edge_data edge : neigburs){
-//		counter+=connect1(this.GA.getNode(edge.getDest()));
-//		}
-//		return counter;
-//		}

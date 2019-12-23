@@ -164,7 +164,8 @@ public class DGraph implements graph{
 		d.addNode(c);
 		d.connect(a.getKey(),b.getKey(),4);
 		d.connect(b.getKey(),c.getKey(),50);
-		d.connect(c.getKey(),a.getKey(),25);
+		d.connect(c.getKey(),b.getKey(),25);
+		d.connect(b.getKey(),a.getKey(),13);
 		System.out.println(d.Edgemap.toString());
 		Graph_Algo p = new Graph_Algo(d);
 		System.out.println(p.isConnected());
