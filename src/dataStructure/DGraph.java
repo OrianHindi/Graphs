@@ -1,9 +1,8 @@
 package dataStructure;
 
-import gui.Graph_GUI;
+import algorithms.Graph_Algo;
 import utils.Point3D;
-import algorithms.*;
-import java.sql.SQLOutput;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,7 +12,6 @@ import java.util.Map;
  * Fixes:
  * need to fix nullpoint if get edge.* or node.* throws nullpointexception.
  */
-
 
 
 public class DGraph implements graph{
@@ -51,7 +49,6 @@ public class DGraph implements graph{
 		catch(NullPointerException e){
 			return null;
 		}
-
 	}
 
 
@@ -114,7 +111,6 @@ public class DGraph implements graph{
 					removeEdge(key2,key);
 				}
 			}
-
 		}
 		return removed;
 	}
@@ -155,21 +151,33 @@ public class DGraph implements graph{
 		Point3D x = new Point3D(14,4,0);
 		Point3D y = new Point3D(-75,14,0);
 		Point3D q = new Point3D(80,5,0);
+		Point3D x1 = new Point3D(14,4,0);
+		Point3D y2 = new Point3D(-75,14,0);
+		Point3D q3 = new Point3D(80,5,0);
 		node_data a = new Node(1,2,3,x,"asf");
-		node_data b = new Node(3,4,6,y,"ads");
-		node_data c = new Node(5,50,50,q,"sf");
+		node_data b = new Node(2,4,6,y,"ads");
+		node_data c = new Node(3,50,50,q,"sf");
+		node_data a1 = new Node(4,2,3,x,"asf");
+		node_data b2 = new Node(5,4,6,y,"ads");
+		node_data c3 = new Node(6,50,50,q,"sf");
 		DGraph d = new DGraph();
 		d.addNode(a);
 		d.addNode(b);
 		d.addNode(c);
-		d.connect(a.getKey(),b.getKey(),4);
-		d.connect(b.getKey(),c.getKey(),50);
-		d.connect(c.getKey(),a.getKey(),25);
-		System.out.println(d.Edgemap.toString());
-		Graph_Algo p = new Graph_Algo(d);
-		System.out.println(p.isConnected());
+		d.addNode(a1);
+		d.addNode(b2);
+		d.addNode(c3);
+		d.connect(a.getKey(),b.getKey(),2);
+		d.connect(a.getKey(),a1.getKey(),4);
+		d.connect(a.getKey(),c.getKey(),1);
+		d.connect(c.getKey() ,b2.getKey(),1);
+		d.connect(b2.getKey(),a1.getKey(),1);
+		d.connect(a1.getKey(),c3.getKey(),1);
+		d.connect(b.getKey(),c3.getKey(),1);
 
-		System.out.println(d.Edgemap.toString());
+		Graph_Algo p = new Graph_Algo(d);
+		System.out.println(p.shortestPathDist(1,6));
+
 //		d.removeNode(1);
 //		d.removeEdge(1,3);
 //		edge_data t = d.getEdge(1,3);
