@@ -52,9 +52,9 @@ public class Graph_Algo implements graph_algorithms{
 		for (node_data node : s) {
 			if(node.getTag()==0)return false;
 		}
-		while (it.hasNext()){
-			node_data end =(node_data) it.next();
-		}
+//		while (it.hasNext()){
+//			node_data end =(node_data) it.next();
+//		}
 		transPose(this.GA);
 		tagZero();
 		Collection<node_data> s1 =this.GA.getV();
@@ -64,9 +64,9 @@ public class Graph_Algo implements graph_algorithms{
 		for (node_data node1: s1) {
 			if(node1.getTag()==0) return false;
 		}
-		while(it1.hasNext()){
-			node_data end2=(node_data)it1.next();
-		}
+//		while(it1.hasNext()){
+//			node_data end2=(node_data)it1.next();
+//		}
 		transPose(this.GA);
 
 		return true;
@@ -88,7 +88,7 @@ public class Graph_Algo implements graph_algorithms{
 			}
 		}
 	}
-	   private void transPose(graph g){
+	   private void transPose(graph g) {
 		Iterator it = g.getV().iterator();
 		while(it.hasNext()){
 			node_data temp = (node_data)it.next();
@@ -104,29 +104,6 @@ public class Graph_Algo implements graph_algorithms{
 				}
 			}
 		}
-
-
-
-
-
-
-
-//
-//		Collection<node_data> nColl = g.getV();
-//		for (node_data node:nColl) {
-//			Collection<edge_data> eColl = g.getE(node.getKey());
-//			if(eColl!=null) {
-//				for (edge_data edge : eColl) {
-//					if (g.getE(edge.getSrc()) != null && g.getEdge(edge.getSrc(), edge.getDest()).getTag() == 0) {
-//						g.connect(edge.getDest(), edge.getSrc(), edge.getWeight());
-//						g.getEdge(edge.getDest(), edge.getSrc()).setTag(1);
-//						g.removeEdge(edge.getSrc(), edge.getDest());
-//					}
-//				}
-//			}
-//		}
-
-
 
 	@Override
 	public double shortestPathDist(int src, int dest) {
