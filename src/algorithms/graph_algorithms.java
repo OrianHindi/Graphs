@@ -12,10 +12,10 @@ package algorithms;
  *
  */
 
-import java.util.List;
-
 import dataStructure.graph;
 import dataStructure.node_data;
+
+import java.util.List;
 
 public interface graph_algorithms {
 	/**
@@ -27,6 +27,7 @@ public interface graph_algorithms {
 	 * Compute a deep copy of this graph.
 	 * @return
 	 */
+
 	public graph copy();
 	/**
 	 * Init a graph from file
