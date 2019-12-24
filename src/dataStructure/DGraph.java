@@ -3,10 +3,8 @@ package dataStructure;
 import algorithms.Graph_Algo;
 import utils.Point3D;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * Fixes:
@@ -14,7 +12,7 @@ import java.util.Map;
  */
 
 
-public class DGraph implements graph{
+public class DGraph implements graph , Serializable {
 	private HashMap<Integer,node_data> Nodemap= new HashMap<>();
 	private HashMap<Integer,HashMap<Integer,edge_data>> Edgemap= new HashMap<>();
 	private int edgeSize;
@@ -149,40 +147,63 @@ public class DGraph implements graph{
 
 	public static void main(String[] args) {
 		Point3D x = new Point3D(14,4,0);
-		Point3D y = new Point3D(-75,14,0);
-		Point3D q = new Point3D(80,5,0);
-		Point3D x1 = new Point3D(14,4,0);
-		Point3D y2 = new Point3D(-75,14,0);
-		Point3D q3 = new Point3D(80,5,0);
-		node_data a = new Node(1,2,3,x,"asf");
-		node_data b = new Node(2,4,6,y,"ads");
-		node_data c = new Node(3,50,50,q,"sf");
-		node_data a1 = new Node(4,2,3,x,"asf");
-		node_data b2 = new Node(5,4,6,y,"ads");
-		node_data c3 = new Node(6,50,50,q,"sf");
+		Point3D x2 = new Point3D(-75,14,0);
+		Point3D x3 = new Point3D(80,5,0);
+		Point3D x4 = new Point3D(1,4,0);
+		Point3D x5 = new Point3D(-5,1,0);
+		Point3D x6 = new Point3D(8,3,0);
+		Point3D x7 = new Point3D(4,1,0);
+		Point3D x8 = new Point3D(75,14,0);
+		node_data a1 = new Node(1,2,0,x,"asf");
+		node_data a2 = new Node(2,4,0,x2,"ads");
+		node_data a3 = new Node(3,50,0,x3,"sf");
+		node_data a4 = new Node(4,2,0,x4,"asf");
+		node_data a5 = new Node(5,4,0,x5,"ads");
+		node_data a6 = new Node(6,50,0,x6,"sf");
+		node_data a7 = new Node(7,2,0,x7,"asf");
+		node_data a8 = new Node(8,4,0,x8,"ads");
 		DGraph d = new DGraph();
-		d.addNode(a);
-		d.addNode(b);
-		d.addNode(c);
-		d.connect(a.getKey(),b.getKey(),4);
-		d.connect(b.getKey(),c.getKey(),50);
-		d.connect(c.getKey(),b.getKey(),25);
-		d.connect(b.getKey(),a.getKey(),13);
-		System.out.println(d.Edgemap.toString());
-
 		d.addNode(a1);
-		d.addNode(b2);
-		d.addNode(c3);
-		d.connect(a.getKey(),b.getKey(),2);
-		d.connect(a.getKey(),a1.getKey(),4);
-		d.connect(a.getKey(),c.getKey(),1);
-		d.connect(c.getKey() ,b2.getKey(),1);
-		d.connect(b2.getKey(),a1.getKey(),1);
-		d.connect(a1.getKey(),c3.getKey(),1);
-		d.connect(b.getKey(),c3.getKey(),1);
-
+		d.addNode(a2);
+		d.addNode(a3);
+		d.addNode(a4);
+		d.addNode(a5);
+		d.addNode(a6);
+		d.addNode(a7);
+		d.addNode(a8);
+		d.connect(a1.getKey(),a2.getKey(),5);
+		d.connect(a1.getKey(),a5.getKey(),2);
+		d.connect(a1.getKey(),a3.getKey(),6);
+		d.connect(a3.getKey(),a4.getKey(),7);
+		d.connect(a2.getKey(),a8.getKey(),8);
+		d.connect(a2.getKey(),a7.getKey(),3);
+		d.connect(a5.getKey(),a6.getKey(),2);
+		d.connect(a6.getKey(),a7.getKey(),3);
+		d.connect(a7.getKey(),a6.getKey(),3);
 		Graph_Algo p = new Graph_Algo(d);
-		System.out.println(p.shortestPathDist(1,6));
+		ArrayList<node_data> ans = (ArrayList)p.shortestPath(1,7);
+		System.out.println(d.getNode(7).getWeight());
+		System.out.println(ans);
+
+
+
+
+
+
+
+
+
+//		System.out.println(d.Edgemap.toString());
+//		Graph_Algo p = new Graph_Algo(d);
+//		p.save("tempGraph.txt");
+//		System.out.println(d.Edgemap.toString());
+//		Graph_Algo readFile = new Graph_Algo();
+//		readFile.init("tempGraph.txt");
+//		System.out.println(" after read from file:  ");
+//		System.out.println(readFile.isConnected());
+//		DGraph s = (DGraph)readFile.copy();
+//		System.out.println(s.Edgemap.toString());
+
 	}
 
 }

@@ -2,7 +2,9 @@ package dataStructure;
 
 import utils.Point3D;
 
-public class Node implements node_data {
+import java.io.Serializable;
+
+public class Node implements node_data, Serializable {
     private int key;
     private double weight;
     private int tag;
@@ -76,5 +78,8 @@ public class Node implements node_data {
     @Override
     public void setTag(int t) {
         this.tag=t;
+    }
+    public String toString(){
+        return "" + this.getKey();
     }
 }
