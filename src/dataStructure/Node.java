@@ -6,10 +6,11 @@ import java.io.Serializable;
 
 public class Node implements node_data, Serializable {
     private int key;
-    private double weight;
-    private int tag;
+    private double weight=0;
+    private int tag=0;
     private Point3D location;
     private String info;
+    private int counter=1;
 
 
     public Node(){
@@ -34,6 +35,12 @@ public class Node implements node_data, Serializable {
         this.info=s.info;
         this.location= new Point3D(s.location);
     }
+    public Node(Point3D p){
+        this.key=counter++;
+        this.location=p;
+        this.info="";
+    }
+
     @Override
     public int getKey() {
         return this.key;
