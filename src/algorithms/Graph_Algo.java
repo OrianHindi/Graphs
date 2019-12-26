@@ -3,6 +3,7 @@ package algorithms;
 import dataStructure.*;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -17,11 +18,7 @@ public class Graph_Algo implements graph_algorithms {
 
 
 	public Graph_Algo() {
-		this.GA = null;
-	}
-
-	public Graph_Algo(graph p) {
-		this.GA = p;
+		this.GA = new DGraph();
 	}
 
 	@Override
@@ -78,7 +75,6 @@ public class Graph_Algo implements graph_algorithms {
 	@Override
 	public boolean isConnected() {
 		graph copied = this.copy();
-		System.out.println(copied.getE(2));
 		tagZero(copied);
 		Collection<node_data> s = copied.getV();
 		Iterator it = s.iterator();
@@ -106,6 +102,9 @@ public class Graph_Algo implements graph_algorithms {
 			node.setTag(0);
 		}
 	}
+	private void edgeZero(graph g){
+
+	}
 
 	private void DFSUtil(node_data n) {
 		n.setTag(1);
@@ -121,25 +120,52 @@ public class Graph_Algo implements graph_algorithms {
 
 	private void transPose(graph g) {
 		Iterator it = g.getV().iterator();
-		while (it.hasNext()) {
-			node_data temp = (node_data) it.next();
-			Iterator it1 = g.getE(temp.getKey()).iterator();
-			while (it1.hasNext()) {
-				edge_data temp1 = (edge_data) it1.next();
-				if (temp1 != null && temp1.getTag() == 0) {
-					if (g.getEdge(temp1.getDest(), temp1.getSrc()) != null) {
-						g.getEdge(temp1.getDest(), temp1.getSrc()).setTag(1);
-						temp1.setTag(1);
-					} else {
-						g.connect(temp1.getDest(), temp1.getSrc(), temp.getWeight());
-						g.getEdge(temp1.getDest(), temp1.getSrc()).setTag(1);
-						g.removeEdge(temp1.getSrc(), temp1.getDest());
-						it1 = g.getE(temp.getKey()).iterator();
+					while (it.hasNext()) {
+						node_data temp = (node_data) it.next();
+						if(g.getE(temp.getKey())!=null) {
+							Iterator it1 = g.getE(temp.getKey()).iterator();
+							while (it1.hasNext()) {
+								edge_data temp1 = (edge_data) it1.next();
+								if (temp1 != null && temp1.getTag() == 0) {
+									if (g.getEdge(temp1.getDest(), temp1.getSrc()) != null) {
+										g.getEdge(temp1.getDest(), temp1.getSrc()).setTag(1);
+										temp1.setTag(1);
+									} else {
+										g.connect(temp1.getDest(), temp1.getSrc(), temp.getWeight());
+										g.getEdge(temp1.getDest(), temp1.getSrc()).setTag(1);
+										g.removeEdge(temp1.getSrc(), temp1.getDest());
+										it1 = g.getE(temp.getKey()).iterator();
+									}
+								}
+							}
+						}
 					}
 				}
-			}
-		}
-	}
+//	private void transPose(graph g) {
+//		Iterator it = g.getV().iterator();
+//		while (it.hasNext()) {
+//			node_data temp = (node_data) it.next();
+//
+//				Iterator it1 = g.getE(temp.getKey()).iterator();
+//				if(it1!=null) {
+//					while (it1.hasNext()) {
+//						edge_data temp1 = (edge_data) it1.next();
+//						if (temp1 != null && temp1.getTag() == 0) {
+//							if (g.getEdge(temp1.getDest(), temp1.getSrc()) != null) {
+//								g.getEdge(temp1.getDest(), temp1.getSrc()).setTag(1);
+//								temp1.setTag(1);
+//							} else {
+//								g.connect(temp1.getDest(), temp1.getSrc(), temp.getWeight());
+//								g.getEdge(temp1.getDest(), temp1.getSrc()).setTag(1);
+//								g.removeEdge(temp1.getSrc(), temp1.getDest());
+//								it1 = g.getE(temp.getKey()).iterator();
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//
 
 	public void setNodes() {
 		Collection<node_data> temp = this.GA.getV();
@@ -198,7 +224,11 @@ public class Graph_Algo implements graph_algorithms {
 			}
 			ans.add(first);
 		}
-		return ans;
+		ArrayList<node_data> ans2 = new ArrayList<>();
+		for (int i = ans.size()-1;i>=0;i--){
+			ans2.add(ans.get(i));
+		}
+		return ans2;
 	}
 
 	@Override
@@ -235,7 +265,7 @@ public class Graph_Algo implements graph_algorithms {
 		Collection<node_data> nColl2 = this.GA.getV();
 		for (node_data node1 : nColl2) {
 			Collection<edge_data> eColl = this.GA.getE(node1.getKey());
-			if (eColl != null) {
+			if (eColl!=null) {
 				for (edge_data edge : eColl) {
 					copy.connect(edge.getSrc(), edge.getDest(), edge.getWeight());
 				}

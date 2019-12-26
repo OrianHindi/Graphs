@@ -6,16 +6,16 @@ import java.io.Serializable;
 import java.security.Key;
 
 public class Node implements node_data, Serializable {
-    private int key;
+    private int key=0;
     private double weight=0;
     private int tag=0;
     private Point3D location;
     private String info;
-    static private int KeyNum=1;
+    static private int keyNum=1;
 
 
     public Node(){
-        this.key=KeyNum++;
+        this.key=keyNum++;
         this.weight=0;
         this.tag=0;
         this.location=null;
@@ -23,7 +23,7 @@ public class Node implements node_data, Serializable {
     }
 
     public Node(double weight,int tag,Point3D p,String info){
-        this.key= KeyNum++;
+        this.key= keyNum++;
         this.weight=weight;
         this.tag=tag;
         this.location=new Point3D(p);
@@ -37,7 +37,7 @@ public class Node implements node_data, Serializable {
         this.location= new Point3D(s.location);
     }
     public Node(Point3D p){
-        this.key=KeyNum++;
+        this.key=keyNum++;
         this.location=p;
         this.info="";
     }
@@ -45,6 +45,11 @@ public class Node implements node_data, Serializable {
     @Override
     public int getKey() {
         return this.key;
+    }
+
+
+    public void setKey(int key){
+        this.key=key;
     }
 
     @Override

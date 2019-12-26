@@ -1,4 +1,5 @@
 package utils;
+import dataStructure.node_data;
 import gui.Graph_GUI;
 
 import javax.imageio.ImageIO;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.TreeSet;
@@ -692,41 +694,74 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 		/**menu bar - load and save**/
 		JMenu file = new JMenu("File");
 		menuBar.add(file);
-		JMenuItem save = new JMenuItem(" Save...   ");
+
+		JMenuItem save = new JMenuItem("Save...");
+		file.add(save);
 		save.addActionListener(std);
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		JMenuItem load = new JMenuItem(" load...   ");
+
+		JMenuItem load = new JMenuItem("Load...");
+		file.add(load);
 		load.addActionListener(std);
 		load.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 
+		JMenuItem clean = new JMenuItem("Clean...");
+		file.add(clean);
+		clean.addActionListener(std);
+
 
 		/**menu bar - Edit**/
-		JMenu EDIT = new JMenu("EDIT");
+		JMenu EDIT = new JMenu("Edit");
 		menuBar.add(EDIT);
 
-		JMenuItem add_node = new JMenuItem("add node...");
-		EDIT.add(add_node);
-		add_node.addActionListener(std);
-		add_node.addMenuDragMouseListener(std);
+		JMenu node = new JMenu("Node");
+		EDIT.add(node);
+		JMenu add_node = new JMenu("Add Node");
+		node.add(add_node);
+		JMenuItem add_ByClick = new JMenuItem("Add By Click");
+		add_node.add(add_ByClick);
+		add_ByClick.addActionListener(std);
+		JMenuItem add_ByPoint= new JMenuItem("Add By Point");
+		add_node.add(add_ByPoint);
+		add_ByPoint.addActionListener(std);
 
-		JMenuItem add_edge = new JMenuItem(" add edge...   ");
+		JMenu edge = new JMenu("Edge");
+		EDIT.add(edge);
+		JMenuItem add_edge = new JMenuItem("Add Edge");
+		edge.add(add_edge);
 		add_edge.addActionListener(std);
 		add_edge.addMenuDragMouseListener(std);
 
-		JMenuItem remove_node = new JMenuItem(" remove node...   ");
+		JMenuItem remove_node = new JMenuItem("Remove Node");
+		node.add(remove_node);
 		remove_node.addActionListener(std);
 
-		JMenuItem remove_edge = new JMenuItem(" remove edge...   ");
+		JMenuItem remove_edge = new JMenuItem("Remove Edge");
+		edge.add(remove_edge);
 		remove_edge.addActionListener(std);
 
 
 		/**menu bar - Algo**/
 		JMenu Algo = new JMenu("Algo");
 		menuBar.add(Algo);
+
 		JMenuItem isConnected = new JMenuItem("isConnected");
 		Algo.add(isConnected);
+		isConnected.addActionListener(std);
+
+		JMenuItem ShortestPath  = new JMenuItem("ShortestPathDist");
+		Algo.add(ShortestPath);
+		ShortestPath.addActionListener(std);
+
+		JMenuItem ShortestPathList = new JMenuItem("ShortestPathList");
+		Algo.add(ShortestPathList);
+		ShortestPathList.addActionListener(std);
+
+		JMenuItem TSP = new JMenuItem("TSP");
+		Algo.add(TSP);
+		TSP.addActionListener(std);
 
 
 		return menuBar;
@@ -1617,12 +1652,14 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 *
 	 * @param  filename the name of the file with one of the required suffixes
 	 */
+
+
 	public static void save(String filename) {
 		if (filename == null) throw new IllegalArgumentException();
 		File file = new File(filename);
 		String suffix = filename.substring(filename.lastIndexOf('.') + 1);
 
-		// png files
+		 //png files
 		if ("png".equalsIgnoreCase(suffix)) {
 			try {
 				ImageIO.write(onscreenImage, suffix, file);
@@ -1632,8 +1669,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 			}
 		}
 
-		// need to change from ARGB to RGB for JPEG
-		// reference: http://archives.java.sun.com/cgi-bin/wa?A2=ind0404&L=java2d-interest&D=0&P=2727
+//	 need to change from ARGB to RGB for JPEG
+	//	 reference: http://archives.java.sun.com/cgi-bin/wa?A2=ind0404&L=java2d-interest&D=0&P=2727
 		else if ("jpg".equalsIgnoreCase(suffix)) {
 			WritableRaster raster = onscreenImage.getRaster();
 			WritableRaster newRaster;
@@ -1681,6 +1718,95 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		String action = e.getActionCommand();
+		switch(action){
+			case "Save...":
+				FileDialog save_window = new FileDialog(StdDraw.frame,"Save Graph",FileDialog.SAVE);
+				save_window.setVisible(true);
+				String Save_name= save_window.getFile();
+				if(Save_name!= null){
+					g.save(save_window.getDirectory() +File.separator + save_window.getFile());
+				}
+				break;
+
+			case "Load...":
+				FileDialog load_window = new FileDialog(StdDraw.frame,"Load Graph", FileDialog.LOAD);
+				load_window.setVisible(true);
+				String load_name = load_window.getFile();
+				if(load_name!=null){
+					g.load(load_window.getDirectory() + File.separator + load_window.getFile());
+					g.printGraph();
+				}
+				break;
+
+			case "Clean...":
+				StdDraw.g= new Graph_GUI();
+				break;
+
+			case "isConnected":
+				JFrame Connection = new JFrame();
+				boolean ans= g.isConnected();
+				if(ans) JOptionPane.showMessageDialog(Connection,"The Graph is Connected.");
+				else JOptionPane.showMessageDialog(Connection,"The Graph is not Connected.");
+				break;
+
+			case "ShortestPathDist":
+				JFrame SrcAndDist = new JFrame();
+				String Src= JOptionPane.showInputDialog(SrcAndDist,"Please enter Src key.");
+				String Dst = JOptionPane.showInputDialog(SrcAndDist,"Please enter Dest key");
+				int srcNode=24001;
+				int dstNode=240001;
+				try {
+					 srcNode = Integer.parseInt(Src);
+					 dstNode = Integer.parseInt(Dst);
+				}
+				catch (Exception badInput){
+					System.err.println("Please enter 2 good keys");
+					JOptionPane.showMessageDialog(SrcAndDist,"Error Please enter 2 numbers","Error",0);
+					break;
+				}
+				double shortestPath = g.ShortestPath(srcNode,dstNode);
+				ArrayList<node_data> way = (ArrayList)g.ShortestPathList(srcNode,dstNode);
+				g.showPath(way);
+				JOptionPane.showMessageDialog(SrcAndDist,"The Shortest path is :" + shortestPath);
+
+			case "ShortestPathList":
+				JFrame ShortestList= new JFrame();
+				String SrcList = JOptionPane.showInputDialog(ShortestList,"Please enter Src key.");
+				String DstList = JOptionPane.showInputDialog(ShortestList,"Please enter Dst Key");
+				int srcKey = Integer.parseInt(SrcList);
+				int dstKey = Integer.parseInt(DstList);
+				StringBuilder stringList = new StringBuilder();
+				ArrayList<node_data> nodelist= (ArrayList)g.ShortestPathList(srcKey,dstKey);
+				stringList.append("" + nodelist.get(0).getKey() + "->");
+				for (int i = 1; i <nodelist.size() ; i++) {
+					if(i!=nodelist.size()-1)
+					stringList.append("" + nodelist.get(i).getKey() + "->");
+					else stringList.append("" + nodelist.get(i).getKey());
+				}
+				g.showPath(nodelist);
+				JOptionPane.showMessageDialog(ShortestList,stringList.toString(),"The shortest Path is:",1);
+
+			case "Add By Point":
+				JFrame addPoint = new JFrame();
+				String xPoint = JOptionPane.showInputDialog(addPoint,"Please enter x Point ");
+				String yPoint = JOptionPane.showInputDialog(addPoint,"Please enter a y point");
+				int xpoint = 0;
+				int ypoint =0;
+				try{
+					xpoint=Integer.parseInt(xPoint);
+					ypoint=Integer.parseInt(yPoint);
+				}
+				catch (Exception badPoint){
+					System.err.println("Please enter good Point");
+					JOptionPane.showMessageDialog(addPoint,"Error Please enter 2 numbers","Error",0);
+					break;
+				}
+				g.add_node(xpoint,ypoint);
+				g.printGraph();
+
+
+		}
 
 	}
 
@@ -1700,43 +1826,47 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
 
 
-	public class Action extends JFrame {
-		public void actionPerformed(ActionEvent e) {
-			if (e.getActionCommand().equals("add node...")) {
 
-				JPanel jp = new JPanel();
-				JLabel jl = new JLabel();
-				JTextField jt = new JTextField("Enter x", 30);
-				JButton jb = new JButton("Enter");
 
-				setTitle("Add x");
-				setVisible(true);
-				setSize(400, 200);
-				setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-				jp.add(jt);
-				jt.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						String x = jt.getText();
-						jl.setText(x);
-						x = jl.getText();
-						System.out.println(x);
-						double x1 = Double.parseDouble(x);
 
-						String y = jt.getText();
-						jl.setText(y);
-						y = jl.getText();
-						double y1 = Double.parseDouble(y);
-
-						g.add_node(x1, y1, 0);
-					}
-				});
-				jp.add(jb);
-			}
-			else System.out.println("bdj");
-		}
-	}
+//	public class Action extends JFrame {
+//		public void actionPerformed(ActionEvent e) {
+//			if (e.getActionCommand().equals("add node...")) {
+//
+//				JPanel jp = new JPanel();
+//				JLabel jl = new JLabel();
+//				JTextField jt = new JTextField("Enter x", 30);
+//				JButton jb = new JButton("Enter");
+//
+//				setTitle("Add x");
+//				setVisible(true);
+//				setSize(400, 200);
+//				setDefaultCloseOperation(EXIT_ON_CLOSE);
+//
+//				jp.add(jt);
+//				jt.addActionListener(new ActionListener() {
+//					@Override
+//					public void actionPerformed(ActionEvent e) {
+//						String x = jt.getText();
+//						jl.setText(x);
+//						x = jl.getText();
+//						System.out.println(x);
+//						double x1 = Double.parseDouble(x);
+//
+//						String y = jt.getText();
+//						jl.setText(y);
+//						y = jl.getText();
+//						double y1 = Double.parseDouble(y);
+//
+//						g.add_node(x1, y1, 0);
+//					}
+//				});
+//				jp.add(jb);
+//			}
+//			else System.out.println("bdj");
+//		}
+//	}
 	/**
 	 JTextField jt = new JTextField("Enter x: ", 30);
 	 JTextField jt1 = new JTextField("Enter y: ", 30);
