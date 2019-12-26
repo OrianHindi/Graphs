@@ -14,12 +14,12 @@ public class NodeTest {
     static node_data[] nodeTest = new node_data[6];
     @Before
     public void BeforeEach(){
-        nodeTest[0]= new Node(1,10,1,new Point3D(3,4,0),"a");
-        nodeTest[1]=new Node(2,20,2,new Point3D(4,5,0),"b");
-        nodeTest[2]=new Node(3,30,3,new Point3D(5,6,0),"c");
-        nodeTest[3]=new Node(4,40,4,new Point3D(6,7,0),"d");
-        nodeTest[4]=new Node(5,50,5,new Point3D(7,8,0),"e");
-        nodeTest[5]=new Node(6,60,6,new Point3D(8,9,0),"f");
+        nodeTest[0]= new Node(new Point3D(3,4,0));
+        nodeTest[1]=new Node(new Point3D(4,5,0));
+        nodeTest[2]=new Node(new Point3D(5,6,0));
+        nodeTest[3]=new Node(new Point3D(6,7,0));
+        nodeTest[4]=new Node(new Point3D(7,8,0));
+        nodeTest[5]=new Node(new Point3D(8,9,0));
     }
     @Test
     public void getKey() {
@@ -58,9 +58,9 @@ public class NodeTest {
 
     @Test
     public void getWeight() {
-        double ans[] = {10,20,30,40,50,60};
+        double ans=0;
         for(int i = 0; i <nodeTest.length ; i++) {
-            assertEquals(ans[i],nodeTest[i].getWeight(),0.01);
+            assertEquals(ans,nodeTest[i].getWeight(),0.01);
 
         }
     }
@@ -78,9 +78,9 @@ public class NodeTest {
 
     @Test
     public void getInfo() {
-        String ans[]= {"a","b","c","d","e","f"};
+        String ans="";
         for (int i = 0; i <nodeTest.length ; i++) {
-            assertEquals(ans[i],nodeTest[i].getInfo());
+            assertEquals(ans,nodeTest[i].getInfo());
         }
 
     }
@@ -98,9 +98,9 @@ public class NodeTest {
 
     @Test
     public void getTag() {
-        int ans[]= {1,2,3,4,5,6};
+        int ans=0;
         for (int i = 0; i <nodeTest.length ; i++) {
-            assertEquals(ans[i],nodeTest[i].getTag());
+            assertEquals(ans,nodeTest[i].getTag());
         }
     }
 

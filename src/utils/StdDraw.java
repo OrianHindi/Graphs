@@ -1,8 +1,10 @@
 package utils;
-import algorithms.Graph_Algo;
+import gui.Graph_GUI;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.MenuDragMouseEvent;
+import javax.swing.event.MenuDragMouseListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -47,7 +49,7 @@ import java.util.TreeSet;
 /**
  *  The {@code StdDraw} class provides a basic capability for
  *  creating drawings with your programs. It uses a simple graphics model that
- *  allows you to create drawings consisting of points, lines, squares, 
+ *  allows you to create drawings consisting of points, lines, squares,
  *  circles, and other geometric shapes in a window on your computer and
  *  to save the drawings to a file. Standard drawing also includes
  *  facilities for text, color, pictures, and animation, along with
@@ -77,7 +79,7 @@ import java.util.TreeSet;
  *  If you compile and execute the program, you should see a window
  *  appear with a thick magenta line and a blue point.
  *  This program illustrates the two main types of methods in standard
- *  drawing—methods that draw geometric shapes and methods that
+ *  drawingג€”methods that draw geometric shapes and methods that
  *  control drawing parameters.
  *  The methods {@code StdDraw.line()} and {@code StdDraw.point()}
  *  draw lines and points; the methods {@code StdDraw.setPenRadius()}
@@ -216,7 +218,7 @@ import java.util.TreeSet;
  *  <li> {@link #setScale(double min, double max)}
  *  </ul>
  *  <p>
- *  The arguments are the coordinates of the minimum and maximum 
+ *  The arguments are the coordinates of the minimum and maximum
  *  <em>x</em>- or <em>y</em>-coordinates that will appear in the canvas.
  *  For example, if you  wish to use the default coordinate system but
  *  leave a small margin, you can call {@code StdDraw.setScale(-.05, 1.05)}.
@@ -272,7 +274,7 @@ import java.util.TreeSet;
  *  or rescale it to fit snugly inside a width-by-height bounding box.
  *  <p>
  *  <b>Saving to a file.</b>
- *  You save your image to a file using the <em>File → Save</em> menu option.
+ *  You save your image to a file using the <em>File ג†’ Save</em> menu option.
  *  You can also save a file programatically using the following method:
  *  <ul>
  *  <li> {@link #save(String filename)}
@@ -280,7 +282,7 @@ import java.util.TreeSet;
  *  <p>
  *  The supported image formats are JPEG and PNG. The filename must have either the
  *  extension .jpg or .png.
- *  We recommend using PNG for drawing that consist solely of geometric shapes and JPEG 
+ *  We recommend using PNG for drawing that consist solely of geometric shapes and JPEG
  *  for drawings that contains pictures.
  *  <p>
  *  <b>Clearing the canvas.</b>
@@ -308,14 +310,14 @@ import java.util.TreeSet;
  *  <p>
  *  By default, double buffering is disabled, which means that as soon as you
  *  call a drawing
- *  method—such as {@code point()} or {@code line()}—the
+ *  methodג€”such as {@code point()} or {@code line()}ג€”the
  *  results appear on the screen.
  *  <p>
  *  When double buffering is enabled by calling {@link #enableDoubleBuffering()},
  *  all drawing takes place on the <em>offscreen canvas</em>. The offscreen canvas
  *  is not displayed. Only when you call
  *  {@link #show()} does your drawing get copied from the offscreen canvas to
- *  the onscreen canvas, where it is displayed in the standard drawing window. You 
+ *  the onscreen canvas, where it is displayed in the standard drawing window. You
  *  can think of double buffering as collecting all of the lines, points, shapes,
  *  and text that you tell it to draw, and then drawing them all
  *  <em>simultaneously</em>, upon request.
@@ -398,7 +400,7 @@ import java.util.TreeSet;
  *  <li> Any method that is passed a {@code null} argument will throw an
  *       {@link IllegalArgumentException}.
  *  <li> Except as noted in the APIs, drawing an object outside (or partly outside)
- *       the canvas is permitted—however, only the part of the object that
+ *       the canvas is permittedג€”however, only the part of the object that
  *       appears inside the canvas will be visible.
  *  <li> Except as noted in the APIs, all methods accept {@link Double#NaN},
  *       {@link Double#POSITIVE_INFINITY}, and {@link Double#NEGATIVE_INFINITY}
@@ -406,7 +408,7 @@ import java.util.TreeSet;
  *       that is NaN will behave as if it is outside the canvas, and will not be visible.
  *  <li> Due to floating-point issues, an object drawn with an <em>x</em>- or
  *       <em>y</em>-coordinate that is way outside the canvas (such as the line segment
- *       from (0.5, –&infin;) to (0.5, &infin;) may not be visible even in the
+ *       from (0.5, ג€“&infin;) to (0.5, &infin;) may not be visible even in the
  *       part of the canvas where it should be.
  *  </ul>
  *  <p>
@@ -447,7 +449,7 @@ import java.util.TreeSet;
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
-public final class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
+public final class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener, MenuDragMouseListener {
 
 	/**
 	 *  The color black.
@@ -631,6 +633,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 * @throws IllegalArgumentException unless both {@code canvasWidth} and
 	 *         {@code canvasHeight} are positive
 	 */
+	public static Graph_GUI g;
+
 	public static void setCanvasSize(int canvasWidth, int canvasHeight) {
 		if (canvasWidth <= 0 || canvasHeight <= 0)
 			throw new IllegalArgumentException("width and height must be positive");
@@ -685,37 +689,49 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	private static JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 
-		JMenu menu = new JMenu("File");
-		menuBar.add(menu);
-		JMenuItem menuItem1 = new JMenuItem(" Save...   ");
-		menuItem1.addActionListener(std);
-		menuItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+		/**menu bar - load and save**/
+		JMenu file = new JMenu("File");
+		menuBar.add(file);
+		JMenuItem save = new JMenuItem(" Save...   ");
+		save.addActionListener(std);
+		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		JMenuItem load = new JMenuItem(" load...   ");
+		load.addActionListener(std);
+		load.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 
+
+		/**menu bar - Edit**/
+		JMenu EDIT = new JMenu("EDIT");
+		menuBar.add(EDIT);
+
+		JMenuItem add_node = new JMenuItem("add node...");
+		EDIT.add(add_node);
+		add_node.addActionListener(std);
+		add_node.addMenuDragMouseListener(std);
+
+		JMenuItem add_edge = new JMenuItem(" add edge...   ");
+		add_edge.addActionListener(std);
+		add_edge.addMenuDragMouseListener(std);
+
+		JMenuItem remove_node = new JMenuItem(" remove node...   ");
+		remove_node.addActionListener(std);
+
+		JMenuItem remove_edge = new JMenuItem(" remove edge...   ");
+		remove_edge.addActionListener(std);
+
+
+		/**menu bar - Algo**/
 		JMenu Algo = new JMenu("Algo");
 		menuBar.add(Algo);
-		JMenuItem save = new JMenuItem("Save");
-		JMenuItem init = new JMenuItem("Init");
 		JMenuItem isConnected = new JMenuItem("isConnected");
-		Algo.add(save);
-		Algo.add(init);
 		Algo.add(isConnected);
-
-		isConnected.addActionListener(new ActionListener() {
-		 Graph_Algo a = new Graph_Algo();
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				a.isConnected();
-			}
-		});
-		//repaint();
-
-
 
 
 		return menuBar;
 	}
+
 
 
 
@@ -1184,10 +1200,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
 
 	/**
-	 * Draws a polygon with the vertices 
+	 * Draws a polygon with the vertices
 	 * (<em>x</em><sub>0</sub>, <em>y</em><sub>0</sub>),
 	 * (<em>x</em><sub>1</sub>, <em>y</em><sub>1</sub>), ...,
-	 * (<em>x</em><sub><em>n</em>–1</sub>, <em>y</em><sub><em>n</em>–1</sub>).
+	 * (<em>x</em><sub><em>n</em>ג€“1</sub>, <em>y</em><sub><em>n</em>ג€“1</sub>).
 	 *
 	 * @param  x an array of all the <em>x</em>-coordinates of the polygon
 	 * @param  y an array of all the <em>y</em>-coordinates of the polygon
@@ -1213,10 +1229,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	}
 
 	/**
-	 * Draws a polygon with the vertices 
+	 * Draws a polygon with the vertices
 	 * (<em>x</em><sub>0</sub>, <em>y</em><sub>0</sub>),
 	 * (<em>x</em><sub>1</sub>, <em>y</em><sub>1</sub>), ...,
-	 * (<em>x</em><sub><em>n</em>–1</sub>, <em>y</em><sub><em>n</em>–1</sub>).
+	 * (<em>x</em><sub><em>n</em>ג€“1</sub>, <em>y</em><sub><em>n</em>ג€“1</sub>).
 	 *
 	 * @param  x an array of all the <em>x</em>-coordinates of the polygon
 	 * @param  y an array of all the <em>y</em>-coordinates of the polygon
@@ -1296,7 +1312,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
             URL url = new URL(filename);
             BufferedImage image = ImageIO.read(url);
             return image;
-        } 
+        }
         catch (IOException e) {
             // ignore
         }
@@ -1306,7 +1322,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
             URL url = StdDraw.class.getResource(filename);
             BufferedImage image = ImageIO.read(url);
             return image;
-        } 
+        }
         catch (IOException e) {
             // ignore
         }
@@ -1316,7 +1332,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
             URL url = StdDraw.class.getResource("/" + filename);
             BufferedImage image = ImageIO.read(url);
             return image;
-        } 
+        }
         catch (IOException e) {
             // ignore
         }
@@ -1570,7 +1586,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	}
 
 	/**
-	 * Enable double buffering. All subsequent calls to 
+	 * Enable double buffering. All subsequent calls to
 	 * drawing methods such as {@code line()}, {@code circle()},
 	 * and {@code square()} will be deffered until the next call
 	 * to show(). Useful for animations.
@@ -1580,7 +1596,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	}
 
 	/**
-	 * Disable double buffering. All subsequent calls to 
+	 * Disable double buffering. All subsequent calls to
 	 * drawing methods such as {@code line()}, {@code circle()},
 	 * and {@code square()} will be displayed on screen when called.
 	 * This is the default.
@@ -1642,18 +1658,202 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	}
 
 
+
+	@Override
+	public void menuDragMouseEntered(MenuDragMouseEvent e) {
+
+	}
+
+	@Override
+	public void menuDragMouseExited(MenuDragMouseEvent e) {
+
+	}
+
+	@Override
+	public void menuDragMouseDragged(MenuDragMouseEvent e) {
+
+	}
+
+	@Override
+	public void menuDragMouseReleased(MenuDragMouseEvent e) {
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+	}
+
+
 	/**
 	 * This method cannot be called directly.
 	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		FileDialog chooser = new FileDialog(StdDraw.frame, "Use a .png or .jpg extension", FileDialog.SAVE);
-		chooser.setVisible(true);
-		String filename = chooser.getFile();
-		if (filename != null) {
-			StdDraw.save(chooser.getDirectory() + File.separator + chooser.getFile());
+
+//	JMenu EDIT = new JMenu("EDIT");
+//		menuBar.add(EDIT);
+//
+//	JMenuItem add_node = new JMenuItem("add node...");
+//		EDIT.add(add_node);
+//		add_node.addActionListener(std);
+//		add_node.addMenuDragMouseListener(std);
+
+
+
+
+	public class Action extends JFrame {
+		public void actionPerformed(ActionEvent e) {
+			if (e.getActionCommand().equals("add node...")) {
+
+				JPanel jp = new JPanel();
+				JLabel jl = new JLabel();
+				JTextField jt = new JTextField("Enter x", 30);
+				JButton jb = new JButton("Enter");
+
+				setTitle("Add x");
+				setVisible(true);
+				setSize(400, 200);
+				setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+				jp.add(jt);
+				jt.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String x = jt.getText();
+						jl.setText(x);
+						x = jl.getText();
+						System.out.println(x);
+						double x1 = Double.parseDouble(x);
+
+						String y = jt.getText();
+						jl.setText(y);
+						y = jl.getText();
+						double y1 = Double.parseDouble(y);
+
+						g.add_node(x1, y1, 0);
+					}
+				});
+				jp.add(jb);
+			}
+			else System.out.println("bdj");
 		}
 	}
+	/**
+	 JTextField jt = new JTextField("Enter x: ", 30);
+	 JTextField jt1 = new JTextField("Enter y: ", 30);
+	 JLabel jl = new JLabel();
+	 JButton jb = new JButton("Enter");
+
+
+	 String x = jt.getText();
+	 jl.setText(x);
+	 x = jl.getText();
+	 System.out.println(x);
+	 double x1 = Double.parseDouble(x);
+
+	 String y = jt.getText();
+	 jl.setText(y);
+	 y = jl.getText();
+	 double y1 = Double.parseDouble(y);
+
+	 g.add_node(x1,y1,0);
+	 }
+
+	 **/
+
+
+
+
+
+
+//	public class Action extends JFrame {
+//		JPanel jp = new JPanel();
+//		JLabel jl = new JLabel();
+//		JTextField jt = new JTextField("Enter x", 30);
+//		JButton jb = new JButton("Enter");
+//
+//		public Action() {
+//			setTitle("Add x");
+//			setVisible(true);
+//			setSize(400, 200);
+//			setDefaultCloseOperation(EXIT_ON_CLOSE);
+//
+//			jp.add(jt);
+//			jt.addActionListener(new ActionListener() {
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//					String input = jt.getText();
+//					jl.setText(input);
+//				}
+//			});
+//			jp.add(jb);
+//			jb.addActionListener(new ActionListener() {
+//
+//
+//
+//
+//
+//
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//					String input = jt.getText();
+//					jl.setText(input);
+//
+//				}
+//			});
+//			jp.add(jl);
+//			add(jp);
+//		}
+//
+//	}
+
+
+
+
+	//boolean b = false;
+//			@Override
+//			public void actionPerformed(ActionEvent arg0) {
+//				b= Graph_GUI.isConnected();
+//				if (b) {
+//					System.out.println("connected!");
+//				}
+//				else System.out.println("Not connected!");
+//				//frame.repaint();
+//				StdDraw.clear();
+//			}
+//
+//		});
+
+//		public void actionPerformed(ActionEvent e) {
+//			Graph_GUI.save();
+//
+//		});
+
+//	 switch(e.getSource()){
+//		case radius:
+//			double r = validate(radius.getText());
+//			break;
+//		case height:
+//			double h = validate(height.getText());
+//			break;
+//		case out:
+//			out.setText(String.valueOf(h*r));
+//			break;
+
+
+//		switch(e.getSource()){
+//			case "add_node":
+//			boolean b = false;
+//			b = Graph_GUI.isConnected();
+//			if (b) {
+//				System.out.println("connected!");
+//			} else System.out.println("Not connected!");
+//			//frame.repaint();
+//			StdDraw.clear();
+
+
+
+
+
 
 
 	/***************************************************************************
@@ -1894,8 +2094,12 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 		StdDraw.text(0.8, 0.8, "white text");
 	}
 
+
 }
 
 
-//Copyright © 2000–2017, Robert Sedgewick and Kevin Wayne. 
+
+
+
+//Copyright ֲ© 2000ג€“2017, Robert Sedgewick and Kevin Wayne.
 //Last updated: Mon Aug 27 16:43:47 EDT 2018.

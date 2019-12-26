@@ -1,4 +1,6 @@
 package gui;
+
+import algorithms.Graph_Algo;
 import dataStructure.DGraph;
 import dataStructure.Node;
 import dataStructure.edge_data;
@@ -12,12 +14,44 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Graph_GUI {
-    public static void printGraph(DGraph d){
+    public static DGraph graph;
+    public static Graph_Algo graph_algo;
+    public Graph_GUI(DGraph graph){
+        this.graph = graph;
+    }
+    public static boolean isConnected(){
+        graph_algo.init(graph);
+        return graph_algo.isConnected();
+    }
+
+    public static void add_node (double x, double y, double z) {   //change key
+        Point3D p = new Point3D(x,y);
+        Node n = new Node(p);
+        graph.addNode(n);
+    }
+
+    public static void add_edge (int src,int dest,double weight) {
+        graph.connect(src,dest,weight);
+    }
+
+    public static void remove_edge (int src,int dest) {
+        graph.removeEdge(src, dest);
+
+    }
+
+    public static void remove_node (int key) {     //change key
+        graph.removeNode(key);
+    }
+
+
+
+    public static void printGraph(){
         StdDraw.setCanvasSize(1000,1000);
         StdDraw.setXscale(-100,100);
         StdDraw.setYscale(-100,100);
         StdDraw.setPenColor(Color.RED);
         StdDraw.setPenRadius(0.15);
+        DGraph d = graph;
         Iterator it = d.getHash().entrySet().iterator();
         while(it.hasNext()){
             Map.Entry map =(Map.Entry)it.next();
@@ -48,26 +82,15 @@ public class Graph_GUI {
                         StdDraw.line(srcP.x(),srcP.y(),dstP.x(),dstP.y());
                         StdDraw.setPenColor(Color.BLACK);
                         StdDraw.text((srcP.x()+dstP.x())/2,(srcP.y()+dstP.y())/2,"" + weight);
+
                     }
                 }
-
-
             }
-
-
-
-
-
         }
-
-
-
-
-
     }
 
     public static void main(String[] args) {
-        DGraph Graph = new DGraph();
+        Graph_GUI.graph = new DGraph();
         Point3D p[] = new Point3D[6];
         Node n[] = new Node[6];
         p[0]=new Point3D(0,0,0);
@@ -76,25 +99,26 @@ public class Graph_GUI {
         p[3]=new Point3D(40,8,0);
         p[4]=new Point3D(-35,5,0);
         p[5]=new Point3D(-60,12,0);
-        n[0]=new Node(1,20,0,p[0],"a");
-        n[1]=new Node(2,10,0,p[1],"b");
-        n[2]=new Node(3,15,0,p[2],"c");
-        n[3]=new Node(4,5,0,p[3],"d");
-        n[4]=new Node(5,0,0,p[4],"e");
-        n[5]=new Node(6,25,0,p[5],"f");
+        n[0]=new Node(p[0]);
+        n[1]=new Node(p[1]);
+        n[2]=new Node(p[2]);
+        n[3]=new Node(p[3]);
+        n[4]=new Node(p[4]);
+        n[5]=new Node(p[5]);
         for (int i = 0; i <p.length ; i++) {
-            Graph.addNode(n[i]);
+            graph.addNode(n[i]);
         }
-        Graph.connect(1,4,20);
-        Graph.connect(2,1,10);
-        Graph.connect(6,1,5);
-        Graph.connect(1,6,6);
-        Graph.connect(4,3,440);
-        Graph.connect(5,6,1);
-        Graph.connect(6,3,22);
-        Graph.connect(3,4,20);
-        Graph.connect(2,5,10);
-        printGraph(Graph);
+        graph.connect(1,4,20);
+        graph.connect(2,1,10);
+        graph.connect(6,1,5);
+        graph.connect(1,6,6);
+        graph.connect(4,3,440);
+
+        graph.connect(5,6,1);
+        graph.connect(6,3,22);
+        graph.connect(3,4,20);
+        graph.connect(2,5,10);
+        printGraph();
     }
 }
 // StdDraw.setPenColor(Color.BLUE);

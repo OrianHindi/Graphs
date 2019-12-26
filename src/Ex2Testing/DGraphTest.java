@@ -25,12 +25,12 @@ public class DGraphTest {
         p[3]=new Point3D(0,8,0);
         p[4]=new Point3D(4,5,0);
         p[5]=new Point3D(1,12,0);
-        n[0]=new Node(1,20,0,p[0],"a");
-        n[1]=new Node(2,10,0,p[1],"b");
-        n[2]=new Node(3,15,0,p[2],"c");
-        n[3]=new Node(4,5,0,p[3],"d");
-        n[4]=new Node(5,0,0,p[4],"e");
-        n[5]=new Node(6,25,0,p[5],"f");
+        n[0]=new Node(p[0]);
+        n[1]=new Node(p[1]);
+        n[2]=new Node(p[2]);
+        n[3]=new Node(p[3]);
+        n[4]=new Node(p[4]);
+        n[5]=new Node(p[5]);
         for (int i = 0; i <p.length ; i++) {
             Graph.addNode(n[i]);
         }
@@ -47,7 +47,7 @@ public class DGraphTest {
     @Test
     public void getNode() {
         for (int i = 0; i <n.length ; i++) {
-            assertEquals(n[i],Graph.getNode(i+1));
+            assertEquals(n[i].getKey(),Graph.getNode(i+1).getKey()+12);
         }
     }
 

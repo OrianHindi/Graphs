@@ -203,8 +203,25 @@ public class Graph_Algo implements graph_algorithms {
 
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
+		int index=0;
+		int tempIndex =0;
+		int targetsIndex=0;
+		boolean flag = true;
+		List<node_data> ans = new LinkedList<>();
+		List<node_data> temp = new LinkedList<>();
+		while(!targets.isEmpty()){
+			temp = shortestPath(targetsIndex,targetsIndex+1);
+			for (int i = 0; i <temp.size() ; i++) {
+				if(!ans.contains(temp.get(i)) && targets.contains(temp.get(i).getKey())){
+					ans.add(temp.get(i));
+					targets.remove(temp.get(i).getKey());
+				}
 
-		return null;
+			}
+
+		}
+
+		return ans;
 	}
 
 	@Override

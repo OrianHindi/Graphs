@@ -18,6 +18,7 @@ public class DGraph implements graph , Serializable {
 	private int edgeSize;
 	private int nodeSize;
 	private int MC;
+	private int NodeKey=1;
 
 
 	public DGraph(){
@@ -160,17 +161,17 @@ public class DGraph implements graph , Serializable {
 		Point3D p9=new Point3D(-50,-1);
 		Point3D p10=new Point3D(60,-10);
 
-		Node a0=new Node(1,0,0,p10,"a");
-		Node a=new Node(2,0, 0,p0, "b");
-		Node b=new Node(3,0, 0,p1,"a");
-		Node c=new Node(4, 0,0,p2, "a");
-		Node d=new Node(5,0, 0,p3, "a");
-		Node e=new Node(6, 0,0,p4, "a");
-		Node f=new Node(7, 0,0,p5, "a" );
-		Node j=new Node(8, 0,0,p6, "a");
-		Node h=new Node(9, 0,0,p7, "a");
-		Node i=new Node(10, 0,0,p8, "a");
-		Node k=new Node(11, 0,0,p9,"a");
+		Node a0=new Node(p0);
+		Node a=new Node(p1);
+		Node b=new Node(p2);
+		Node c=new Node(p3);
+		Node d=new Node(p4);
+		Node e=new Node(p5);
+		Node f=new Node(p6);
+		Node j=new Node(p7);
+		Node h=new Node(p8);
+		Node i=new Node(p9);
+		Node k=new Node(p10);
 
 		g.addNode(a0);
 		g.addNode(a);
@@ -202,7 +203,7 @@ public class DGraph implements graph , Serializable {
 		 g.connect(i.getKey(),k.getKey(), 35);
 		 Graph_Algo ga = new Graph_Algo(g);
 
-		System.out.println("shortest path is: "+ga.shortestPathDist(1, 11));
+		System.out.println("shortest path is: "+ga.shortestPathDist(a0.getKey(),k.getKey()));
 	//	gg.drawDGraph();
 //		Point3D x = new Point3D(14,4,0);
 //		Point3D x2 = new Point3D(-75,14,0);
