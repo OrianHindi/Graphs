@@ -141,31 +141,6 @@ public class Graph_Algo implements graph_algorithms {
 						}
 					}
 				}
-//	private void transPose(graph g) {
-//		Iterator it = g.getV().iterator();
-//		while (it.hasNext()) {
-//			node_data temp = (node_data) it.next();
-//
-//				Iterator it1 = g.getE(temp.getKey()).iterator();
-//				if(it1!=null) {
-//					while (it1.hasNext()) {
-//						edge_data temp1 = (edge_data) it1.next();
-//						if (temp1 != null && temp1.getTag() == 0) {
-//							if (g.getEdge(temp1.getDest(), temp1.getSrc()) != null) {
-//								g.getEdge(temp1.getDest(), temp1.getSrc()).setTag(1);
-//								temp1.setTag(1);
-//							} else {
-//								g.connect(temp1.getDest(), temp1.getSrc(), temp.getWeight());
-//								g.getEdge(temp1.getDest(), temp1.getSrc()).setTag(1);
-//								g.removeEdge(temp1.getSrc(), temp1.getDest());
-//								it1 = g.getE(temp.getKey()).iterator();
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-//
 
 	public void setNodes() {
 		Collection<node_data> temp = this.GA.getV();

@@ -186,7 +186,7 @@ public class DGraph implements graph , Serializable {
 		d.connect(a7.getKey(),a6.getKey(),3);
 		Graph_Algo p = new Graph_Algo();
 		p.init(d);
-		System.out.println(p.shortestPathDist(a1.getKey(),a9.getKey()));
+		System.out.println(p.shortestPathDist(a8.getKey(),a2.getKey()));
 		Graph_GUI gp = new Graph_GUI();
 		DGraph new1 = new DGraph();
 		Node s1 = new Node(new Point3D(3,5));
@@ -200,7 +200,7 @@ public class DGraph implements graph , Serializable {
 		new1.connect(s3.getKey(),s1.getKey(),10);
 		Graph_Algo p2 = new Graph_Algo();
 		p2.init(new1);
-		p2.save("p2Grap");
+
 
 
 

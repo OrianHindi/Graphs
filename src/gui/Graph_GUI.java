@@ -62,6 +62,13 @@ public class Graph_GUI {
         graph=(DGraph)graph_algo.copy();
 
     }
+    public node_data findNode(double x, double y){
+        Collection<node_data> temp = graph.getV();
+        for (node_data node: temp) {
+            if(x>=node.getLocation().x()-0.4 && x<= node.getLocation().x()+0.4 && y>=node.getLocation().y()-0.4 && y<=node.getLocation().y()+0.4) return node;
+        }
+        return null;
+    }
     public double ShortestPath(int src,int dest){
         graph_algo.init(graph);
         return graph_algo.shortestPathDist(src,dest);

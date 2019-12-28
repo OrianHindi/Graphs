@@ -1,4 +1,5 @@
 package utils;
+import dataStructure.Edge;
 import dataStructure.node_data;
 import gui.Graph_GUI;
 
@@ -636,6 +637,9 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 *         {@code canvasHeight} are positive
 	 */
 	public static Graph_GUI g;
+	public static int isAddNode=0;
+	public static int isRemoveNode=0;
+	public static int isRepaint =0;
 
 	public static void setCanvasSize(int canvasWidth, int canvasHeight) {
 		if (canvasWidth <= 0 || canvasHeight <= 0)
@@ -734,9 +738,18 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 		add_edge.addActionListener(std);
 		add_edge.addMenuDragMouseListener(std);
 
-		JMenuItem remove_node = new JMenuItem("Remove Node");
+		JMenu remove_node = new JMenu("Remove Node");
 		node.add(remove_node);
-		remove_node.addActionListener(std);
+
+
+		JMenuItem removeclick = new JMenuItem("Remove By Click");
+		remove_node.add(removeclick);
+		removeclick.addActionListener(std);
+
+		JMenuItem removepoint = new JMenuItem("Remove By Key");
+		remove_node.add(removepoint);
+		removepoint.addActionListener(std);
+
 
 		JMenuItem remove_edge = new JMenuItem("Remove Edge");
 		edge.add(remove_edge);
@@ -1744,6 +1757,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				break;
 
 			case "isConnected":
+				if(isRepaint==1){
+					g.printGraph();
+					isRepaint=0;
+				}
 				JFrame Connection = new JFrame();
 				boolean ans= g.isConnected();
 				if(ans) JOptionPane.showMessageDialog(Connection,"The Graph is Connected.");
@@ -1751,6 +1768,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				break;
 
 			case "ShortestPathDist":
+				if(isRepaint==1){
+					g.printGraph();
+					isRepaint=0;
+				}
 				JFrame SrcAndDist = new JFrame();
 				String Src= JOptionPane.showInputDialog(SrcAndDist,"Please enter Src key.");
 				String Dst = JOptionPane.showInputDialog(SrcAndDist,"Please enter Dest key");
@@ -1762,15 +1783,21 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				}
 				catch (Exception badInput){
 					System.err.println("Please enter 2 good keys");
-					JOptionPane.showMessageDialog(SrcAndDist,"Error Please enter 2 numbers","Error",0);
+					JOptionPane.showMessageDialog(SrcAndDist,"Error:Please enter 2 good keys ","Error",0);
 					break;
 				}
 				double shortestPath = g.ShortestPath(srcNode,dstNode);
 				ArrayList<node_data> way = (ArrayList)g.ShortestPathList(srcNode,dstNode);
 				g.showPath(way);
 				JOptionPane.showMessageDialog(SrcAndDist,"The Shortest path is :" + shortestPath);
+				isRepaint = 1;
+				break;
 
 			case "ShortestPathList":
+				if(isRepaint==1){
+					g.printGraph();
+					isRepaint=0;
+				}
 				JFrame ShortestList= new JFrame();
 				String SrcList = JOptionPane.showInputDialog(ShortestList,"Please enter Src key.");
 				String DstList = JOptionPane.showInputDialog(ShortestList,"Please enter Dst Key");
@@ -1786,8 +1813,14 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				}
 				g.showPath(nodelist);
 				JOptionPane.showMessageDialog(ShortestList,stringList.toString(),"The shortest Path is:",1);
+				isRepaint=1;
+				break;
 
 			case "Add By Point":
+				if(isRepaint==1){
+					g.printGraph();
+					isRepaint=0;
+				}
 				JFrame addPoint = new JFrame();
 				String xPoint = JOptionPane.showInputDialog(addPoint,"Please enter x Point ");
 				String yPoint = JOptionPane.showInputDialog(addPoint,"Please enter a y point");
@@ -1804,8 +1837,97 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				}
 				g.add_node(xpoint,ypoint);
 				g.printGraph();
+				break;
+
+			case "Add Edge":
+				if(isRepaint==1){
+					g.printGraph();
+					isRepaint=0;
+				}
+				JFrame EdgePoint = new JFrame();
+				String xEdge = JOptionPane.showInputDialog(EdgePoint,"Please enter a src Node");
+				String yEdge = JOptionPane.showInputDialog(EdgePoint,"Please enter a dest Noode");
+				String EWeight = JOptionPane.showInputDialog(EdgePoint,"Please enter a weight");
+				int xedge=0;
+				int yedge=0;
+				int eweight=0;
+				try{
+					xedge=Integer.parseInt(xEdge);
+					yedge= Integer.parseInt(yEdge);
+					eweight= Integer.parseInt(EWeight);
+				}
+				catch(Exception edgeEx){
+					System.err.println("Please enter good parameters");
+					JOptionPane.showMessageDialog(EdgePoint,"Error:Please enter good parameters","Error",0);
+					break;
+				}
+				g.add_edge(xedge,yedge,eweight);
+				g.printGraph();
+				break;
+
+			case "Remove Edge":
+				if(isRepaint==1){
+					g.printGraph();
+					isRepaint=0;
+				}
+				JFrame removeEdge = new JFrame();
+				String srcnode = JOptionPane.showInputDialog(removeEdge,"Please enter a src Node");
+				String dstnode = JOptionPane.showInputDialog(removeEdge,"Please enter a dest Node");
+				int srctoremove=0;
+				int dsttoremove=0;
+				try{
+					srctoremove= Integer.parseInt(srcnode);
+					dsttoremove= Integer.parseInt(dstnode);
+				}
+				catch(Exception removEX){
+					System.err.println("Please enter good parameters");
+					JOptionPane.showMessageDialog(removeEdge,"Error:Please enter good parameters","Error",0);
+					break;
+				}
+				g.remove_edge(srctoremove,dsttoremove);
+				g.printGraph();
+				break;
 
 
+			case "Remove By Key":
+				if(isRepaint==1){
+					g.printGraph();
+					isRepaint=0;
+				}
+				JFrame removeNode = new JFrame();
+				String nodetoremove= JOptionPane.showInputDialog(removeNode,"Please enter a key to remove");
+				int keytoremove= 0;
+				try{
+					keytoremove= Integer.parseInt(nodetoremove);
+				}
+				catch(Exception noderm){
+					System.err.println("Please enter good key");
+					JOptionPane.showMessageDialog(removeNode,"Error:Please enter good key","Error",0);
+					break;
+				}
+				g.remove_node(keytoremove);
+				g.printGraph();
+				break;
+
+			case "Add By Click":
+				if(isRepaint==1){
+					g.printGraph();
+					isRepaint=0;
+				}
+				isAddNode=1;
+				isRemoveNode=0;
+				frame.addMouseListener(this);
+				break;
+
+			case"Remove By Click":
+				if(isRepaint==1){
+					g.printGraph();
+					isRepaint=0;
+				}
+				isRemoveNode=1;
+				isAddNode=0;
+				frame.addMouseListener(this);
+				break;
 		}
 
 	}
@@ -2042,9 +2164,27 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// this body is intentionally left empty
-	}
+		if (isAddNode == 1) {
+			double pointX = mouseX();
+			double pointY = mouseY();
+			g.add_node(pointX, pointY);
+			isAddNode = 0;
+			isRemoveNode = 0;
+			g.printGraph();
+		}
+		if (isRemoveNode == 1) {
+			double removex = mouseX();
+			double removey = mouseY();
+			node_data ans = g.findNode(removex, removey);
+			if (ans != null) {
+				g.remove_node(ans.getKey());
+				g.printGraph();
+			}
+			isRemoveNode=0;
+			isAddNode=0;
+		}
 
+	}
 	/**
 	 * This method cannot be called directly.
 	 */
