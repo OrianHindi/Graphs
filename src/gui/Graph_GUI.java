@@ -86,54 +86,24 @@ public class Graph_GUI {
 
 
     public void openCanvas(){
+
         StdDraw.setCanvasSize(1000,1000);
         StdDraw.setXscale(-100,100);
         StdDraw.setYscale(-100,100);
         printGraph();
     }
-    public  void printGraph(){
-        StdDraw.clear();
+    public  void printGraph() {
         StdDraw.setPenColor(Color.RED);
-        StdDraw.setPenRadius(0.15);
-        DGraph d = this.graph;
-        if(d!=null) {
-            Iterator it = d.getHash().entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry map = (Map.Entry) it.next();
-                int key = (int) map.getKey();
-                Point3D p = d.getNode(key).getLocation();
-                StdDraw.filledCircle(p.x(), p.y(), 0.4);
-                StdDraw.text(p.x(), p.y() + 0.5, "" + d.getNode(key).getKey());
-            }
-            StdDraw.setPenColor(Color.BLACK);
-            StdDraw.setPenRadius(0.01);
-            Iterator it2 = d.getEdgeHash().entrySet().iterator();
-            while (it2.hasNext()) {
-                Map.Entry map2 = (Map.Entry) it2.next();
-                int keySrc = (int) map2.getKey();
-                HashMap temp = (HashMap) d.getEdgeHash().get(keySrc);
-                Iterator it3 = temp.entrySet().iterator();
-                if (temp != null) {
-                    while (it3.hasNext()) {
-                        Map.Entry map3 = (Map.Entry) it3.next();
-                        int keyDest = (int) map3.getKey();
-                        if (temp.get(keyDest) != null) {
-                            edge_data edge = (edge_data) temp.get(keyDest);
-                            double weight = edge.getWeight();
-                            node_data srcNode = d.getNode(keySrc);
-                            node_data dstNode = d.getNode(keyDest);
-                            Point3D srcP = srcNode.getLocation();
-                            Point3D dstP = dstNode.getLocation();
-                            StdDraw.line(srcP.x(), srcP.y(), dstP.x(), dstP.y());
-                            StdDraw.setPenColor(Color.BLACK);
-                            StdDraw.text((srcP.x() + dstP.x()) / 2, (srcP.y() + dstP.y()) / 2, "" + weight);
-
-                        }
-                    }
-                }
-            }
+        StdDraw.setPenRadius(0.05);
+        for (node_data node: graph.getV() ) {
+          //  StdDraw.setPenColor(Color.RED);
+            Point3D p = node.getLocation();
+            StdDraw.filledCircle(p.x(),p.y(),0.5);
+//            StdDraw.setPenColor(Color.white);
+//            StdDraw.text(p.x(),p.y(),"" + node.getKey());
         }
-    }
+     }
+
     public void showPath(ArrayList<node_data> ans){
         for (int i = 0; i <ans.size() ; i++) {
             StdDraw.setPenColor(Color.GREEN);
@@ -215,3 +185,56 @@ public class Graph_GUI {
 //         }
 //
 //         }
+
+
+
+//printgraph
+
+//        StdDraw.setPenRadius(0.05);
+//        DGraph d = this.graph;
+//        Collection<node_data> nodes = d.getV();
+//        for (node_data node: nodes) {
+//            StdDraw.setPenColor(Color.BLUE);
+//            Point3D p = node.getLocation();
+//            StdDraw.filledCircle(p.x(),p.y(),0.05);
+//            StdDraw.setPenColor(Color.WHITE);
+//            StdDraw.text(p.x(),p.y(),"" + node.getKey());
+//        }
+////        if (d != null) {
+////            Iterator it = d.getHash().entrySet().iterator();
+////            while (it.hasNext()) {
+////                Map.Entry map = (Map.Entry) it.next();
+////                int key = (int) map.getKey();
+////                Point3D p = d.getNode(key).getLocation();
+////                StdDraw.filledCircle(p.x(), p.y(), 0.05);
+////                StdDraw.text(p.x(), p.y() + 0.5, "" + d.getNode(key).getKey());
+////            }
+//            StdDraw.setPenColor(Color.BLACK);
+//            StdDraw.setPenRadius(0.01);
+//            Iterator it2 = d.getEdgeHash().entrySet().iterator();
+//            while (it2.hasNext()) {
+//                Map.Entry map2 = (Map.Entry) it2.next();
+//                int keySrc = (int) map2.getKey();
+//                HashMap temp = (HashMap) d.getEdgeHash().get(keySrc);
+//                Iterator it3 = temp.entrySet().iterator();
+//                if (temp != null) {
+//                    while (it3.hasNext()) {
+//                        Map.Entry map3 = (Map.Entry) it3.next();
+//                        int keyDest = (int) map3.getKey();
+//                        if (temp.get(keyDest) != null) {
+//                            edge_data edge = (edge_data) temp.get(keyDest);
+//                            double weight = edge.getWeight();
+//                            node_data srcNode = d.getNode(keySrc);
+//                            node_data dstNode = d.getNode(keyDest);
+//                            Point3D srcP = srcNode.getLocation();
+//                            Point3D dstP = dstNode.getLocation();
+//                            StdDraw.line(srcP.x(), srcP.y(), dstP.x(), dstP.y());
+//                            StdDraw.setPenColor(Color.BLACK);
+//                            StdDraw.text((srcP.x() + dstP.x()) / 2, (srcP.y() + dstP.y()) / 2, "" + weight);
+//
+//                        }
+//                    }
+//                }
+//         //   }
+//        }
+//    }

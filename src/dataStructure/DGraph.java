@@ -36,7 +36,6 @@ public class DGraph implements graph , Serializable {
 			return this.Nodemap.get(key);
 		}
 		catch (Exception e){
-
 			throw new RuntimeException(" the Node isnt exist.");
 		}
 	}
@@ -143,63 +142,78 @@ public class DGraph implements graph , Serializable {
 		return this.MC;
 	}
 
-	public HashMap getHash(){ return this.Nodemap; }
-
-	public HashMap getEdgeHash(){return this.Edgemap;}
-
 	public static void main(String[] args) {
-		Point3D x = new Point3D(14,4,0);
-		Point3D x2 = new Point3D(-75,14,0);
-		Point3D x3 = new Point3D(80,5,0);
-		Point3D x4 = new Point3D(1,4,0);
-		Point3D x5 = new Point3D(-5,1,0);
-		Point3D x6 = new Point3D(8,3,0);
-		Point3D x7 = new Point3D(4,1,0);
-		Point3D x8 = new Point3D(75,14,0);
-		node_data a1 = new Node(x);
-		node_data a2 = new Node(x2);
-		node_data a3 = new Node(x3);
-		node_data a4 = new Node(x4);
-		node_data a5 = new Node(x5);
-		node_data a6 = new Node(x6);
-		node_data a7 = new Node(x7);
-		node_data a8 = new Node(x8);
-		node_data a9 = new Node(new Point3D(40,70));
-		DGraph d = new DGraph();
-		d.addNode(a1);
-		d.addNode(a2);
-		d.addNode(a3);
-		d.addNode(a4);
-		d.addNode(a5);
-		d.addNode(a6);
-		d.addNode(a7);
-		d.addNode(a8);
-		d.addNode(a9);
-		d.connect(a1.getKey(),a2.getKey(),5);
-		d.connect(a1.getKey(),a5.getKey(),2);
-		d.connect(a1.getKey(),a3.getKey(),6);
-		d.connect(a3.getKey(),a4.getKey(),7);
-		d.connect(a2.getKey(),a8.getKey(),8);
-		d.connect(a2.getKey(),a7.getKey(),3);
-		d.connect(a5.getKey(),a6.getKey(),2);
-		d.connect(a6.getKey(),a7.getKey(),3);
-		d.connect(a7.getKey(),a6.getKey(),3);
+
+		DGraph check = new DGraph();
+		Node first = new Node(new Point3D(5,6));
+		Node second = new Node(new Point3D(40,5));
+		Node third = new Node(new Point3D(40,-42));
+		check.addNode(first);
+		check.addNode(second);
+		check.addNode(third);
 		Graph_Algo p = new Graph_Algo();
-		p.init(d);
-		System.out.println(p.shortestPathDist(a8.getKey(),a2.getKey()));
-		Graph_GUI gp = new Graph_GUI();
-		DGraph new1 = new DGraph();
-		Node s1 = new Node(new Point3D(3,5));
-		Node s2 = new Node(new Point3D(7,10));
-		Node s3 = new Node(new Point3D(40,6));
-		new1.addNode(s1);
-		new1.addNode(s2);
-		new1.addNode(s3);
-		new1.connect(s1.getKey(),s2.getKey(),5);
-		new1.connect(s2.getKey(),s3.getKey(),12);
-		new1.connect(s3.getKey(),s1.getKey(),10);
-		Graph_Algo p2 = new Graph_Algo();
-		p2.init(new1);
+		p.init(check);
+		p.save("CHECK");
+		Graph_GUI d = new Graph_GUI();
+
+
+
+
+
+
+
+//		Point3D x = new Point3D(14,4,0);
+//		Point3D x2 = new Point3D(-75,14,0);
+//		Point3D x3 = new Point3D(80,5,0);
+//		Point3D x4 = new Point3D(1,4,0);
+//		Point3D x5 = new Point3D(-5,1,0);
+//		Point3D x6 = new Point3D(8,3,0);
+//		Point3D x7 = new Point3D(4,1,0);
+//		Point3D x8 = new Point3D(75,14,0);
+//		node_data a1 = new Node(x);
+//		node_data a2 = new Node(x2);
+//		node_data a3 = new Node(x3);
+//		node_data a4 = new Node(x4);
+//		node_data a5 = new Node(x5);
+//		node_data a6 = new Node(x6);
+//		node_data a7 = new Node(x7);
+//		node_data a8 = new Node(x8);
+//		node_data a9 = new Node(new Point3D(40,70));
+//		DGraph d = new DGraph();
+//		d.addNode(a1);
+//		d.addNode(a2);
+//		d.addNode(a3);
+//		d.addNode(a4);
+//		d.addNode(a5);
+//		d.addNode(a6);
+//		d.addNode(a7);
+//		d.addNode(a8);
+//		d.addNode(a9);
+//		d.connect(a1.getKey(),a2.getKey(),5);
+//		d.connect(a1.getKey(),a5.getKey(),2);
+//		d.connect(a1.getKey(),a3.getKey(),6);
+//		d.connect(a3.getKey(),a4.getKey(),7);
+//		d.connect(a2.getKey(),a8.getKey(),8);
+//		d.connect(a2.getKey(),a7.getKey(),3);
+//		d.connect(a5.getKey(),a6.getKey(),2);
+//		d.connect(a6.getKey(),a7.getKey(),3);
+//		d.connect(a7.getKey(),a6.getKey(),3);
+//		Graph_Algo p = new Graph_Algo();
+//		p.init(d);
+//		System.out.println(p.shortestPathDist(a8.getKey(),a2.getKey()));
+//		Graph_GUI gp = new Graph_GUI();
+//		DGraph new1 = new DGraph();
+//		Node s1 = new Node(new Point3D(3,5));
+//		Node s2 = new Node(new Point3D(7,10));
+//		Node s3 = new Node(new Point3D(40,6));
+//		new1.addNode(s1);
+//		new1.addNode(s2);
+//		new1.addNode(s3);
+//		new1.connect(s1.getKey(),s2.getKey(),5);
+//		new1.connect(s2.getKey(),s3.getKey(),12);
+//		new1.connect(s3.getKey(),s1.getKey(),10);
+//		Graph_Algo p2 = new Graph_Algo();
+//		p2.init(new1);
 
 
 

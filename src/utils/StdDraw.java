@@ -1748,7 +1748,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				String load_name = load_window.getFile();
 				if(load_name!=null){
 					g.load(load_window.getDirectory() + File.separator + load_window.getFile());
-					g.printGraph();
+					g.openCanvas();
 				}
 				break;
 

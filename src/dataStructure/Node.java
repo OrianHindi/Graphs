@@ -80,7 +80,6 @@ public class Node implements node_data, Serializable {
     @Override
     public void setInfo(String s) {
         this.info=s;
-
     }
 
     @Override
