@@ -41,9 +41,11 @@ public class DGraphTest {
     }
     @Test
     public void getNode() {
-        for (int i = 0; i <n.length ; i++) {
-            assertEquals(n[i].getKey(),Graph.getNode(i+1).getKey()+12);
-        }
+        DGraph p = new DGraph();
+        node_data a1 = new Node(new Point3D(2,3,7));
+        p.addNode(a1);
+        assertEquals(p.getNode(a1.getKey()),a1);
+
     }
 
     @Test
@@ -87,9 +89,9 @@ public class DGraphTest {
         p.addNode(a1);
         p.addNode(a2);
 
-        p.connect(7,8,1);
-        p.getEdge(7,8);
-        boolean flag1 = p.getE(7).contains(p.getEdge(7,8));
+        p.connect(a1.getKey(),a2.getKey(),1);
+        p.getEdge(a1.getKey(),a2.getKey());
+        boolean flag1 = p.getE(a1.getKey()).contains(p.getEdge(a1.getKey(),a2.getKey()));
         assertEquals(flag1,true);
     }
 
@@ -126,9 +128,9 @@ public class DGraphTest {
         node_data a2 = new Node(new Point3D(1,2,8));
         p.addNode(a1);
         p.addNode(a2);
-        p.connect(7, 8, 1);
-        p.removeEdge(7,8);
-        assertEquals(p.getEdge(7,8),null);
+        p.connect(a1.getKey(),a2.getKey(), 1);
+        p.removeEdge(a1.getKey(),a2.getKey());
+        assertEquals(p.getEdge(a1.getKey(),a2.getKey()),null);
     }
 
     @Test
@@ -139,7 +141,7 @@ public class DGraphTest {
         p.addNode(a1);
         p.addNode(a2);
         assertEquals(2,p.nodeSize());
-        p.removeNode(7);
+        p.removeNode(a1.getKey());
         assertEquals(1,p.nodeSize());
     }
 
@@ -150,9 +152,9 @@ public class DGraphTest {
         node_data a2 = new Node(new Point3D(1,2,0));
         p.addNode(a1);
         p.addNode(a2);
-        p.connect(7,8,10);
+        p.connect(a1.getKey(),a2.getKey(),10);
         assertEquals(p.edgeSize(),1);
-        p.removeEdge(7,8);
+        p.removeEdge(a1.getKey(),a2.getKey());
         assertEquals(p.edgeSize(),0);
     }
 
@@ -164,8 +166,8 @@ public class DGraphTest {
         node_data a2 = new Node(new Point3D(1,2,3));
         p.addNode(a1);
         p.addNode(a2);
-        p.connect(7,8,10);
-        p.removeEdge(7,8);
+        p.connect(a1.getKey(),a2.getKey(),10);
+        p.removeEdge(a1.getKey(),a2.getKey());
         assertEquals(4 , p.getMC());
     }
 }
