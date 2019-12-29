@@ -164,8 +164,8 @@ public class DGraphTest {
         node_data a2 = new Node(new Point3D(1,2,3));
         p.addNode(a1);
         p.addNode(a2);
-        p.connect(7,8,10);
-        p.removeEdge(7,8);
+        p.connect(a1.getKey(),a2.getKey(),10);
+        p.removeEdge(a1.getKey(),a2.getKey());
         assertEquals(4 , p.getMC());
     }
 }

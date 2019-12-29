@@ -27,13 +27,10 @@ public class Graph_Algo implements graph_algorithms {
 	}
 
 	@Override
-	public void init(String file_name) {
-		deserialize(file_name);
-
-	}
+	public void init(String file_name) { deserialize(file_name); }
 
 	@Override
-	public void save(String file_name) {
+	public void save(String file_name)  {
 		serialize(file_name);
 	}
 
@@ -120,27 +117,27 @@ public class Graph_Algo implements graph_algorithms {
 
 	private void transPose(graph g) {
 		Iterator it = g.getV().iterator();
-					while (it.hasNext()) {
-						node_data temp = (node_data) it.next();
-						if(g.getE(temp.getKey())!=null) {
-							Iterator it1 = g.getE(temp.getKey()).iterator();
-							while (it1.hasNext()) {
-								edge_data temp1 = (edge_data) it1.next();
-								if (temp1 != null && temp1.getTag() == 0) {
-									if (g.getEdge(temp1.getDest(), temp1.getSrc()) != null) {
-										g.getEdge(temp1.getDest(), temp1.getSrc()).setTag(1);
-										temp1.setTag(1);
-									} else {
-										g.connect(temp1.getDest(), temp1.getSrc(), temp.getWeight());
-										g.getEdge(temp1.getDest(), temp1.getSrc()).setTag(1);
-										g.removeEdge(temp1.getSrc(), temp1.getDest());
-										it1 = g.getE(temp.getKey()).iterator();
-									}
-								}
-							}
+		while (it.hasNext()) {
+			node_data temp = (node_data) it.next();
+			if(g.getE(temp.getKey())!=null) {
+				Iterator it1 = g.getE(temp.getKey()).iterator();
+				while (it1.hasNext()) {
+					edge_data temp1 = (edge_data) it1.next();
+					if (temp1 != null && temp1.getTag() == 0) {
+						if (g.getEdge(temp1.getDest(), temp1.getSrc()) != null) {
+							g.getEdge(temp1.getDest(), temp1.getSrc()).setTag(1);
+							temp1.setTag(1);
+						} else {
+							g.connect(temp1.getDest(), temp1.getSrc(), temp.getWeight());
+							g.getEdge(temp1.getDest(), temp1.getSrc()).setTag(1);
+							g.removeEdge(temp1.getSrc(), temp1.getDest());
+							it1 = g.getE(temp.getKey()).iterator();
 						}
 					}
 				}
+			}
+		}
+	}
 
 	public void setNodes() {
 		Collection<node_data> temp = this.GA.getV();
@@ -153,13 +150,13 @@ public class Graph_Algo implements graph_algorithms {
 
 	@Override
 	public double shortestPathDist(int src, int dest) {
+		if(src== dest ) return 0;
+		if(this.GA.getNode(src)==null || this.GA.getNode(dest)==null) throw new RuntimeException("Wrong input,Missing nodes.");
 		setNodes();
 		node_data temp = this.GA.getNode(src);
 		temp.setWeight(0);
 		STPRec(temp, this.GA.getNode(dest));
 		double ans = this.GA.getNode(dest).getWeight();
-
-
 		return ans;
 	}
 
@@ -184,6 +181,10 @@ public class Graph_Algo implements graph_algorithms {
 	public List<node_data> shortestPath(int src, int dest) {
 		ArrayList<node_data> ans = new ArrayList<>();
 		this.shortestPathDist(src, dest);
+		if(this.GA.getNode(src).getWeight() == Integer.MAX_VALUE || this.GA.getNode(dest).getWeight() == Integer.MAX_VALUE){
+			System.out.print("There is not a path between the nodes.");
+			return ans;
+		}
 		graph copied = this.copy();
 		transPose(copied);
 		node_data first = copied.getNode(dest);
@@ -191,12 +192,12 @@ public class Graph_Algo implements graph_algorithms {
 		double minWeight = Integer.MAX_VALUE;
 		while (first.getKey() != src) {
 			Collection<edge_data> temp = copied.getE(first.getKey());
-			for (edge_data edge : temp) {
-				if (copied.getNode(edge.getDest()).getWeight() < minWeight) {
-					minWeight = copied.getNode(edge.getDest()).getWeight();
-					first = copied.getNode(edge.getDest());
+				for (edge_data edge : temp) {
+					if (copied.getNode(edge.getDest()).getWeight() < minWeight) {
+						minWeight = copied.getNode(edge.getDest()).getWeight();
+						first = copied.getNode(edge.getDest());
+					}
 				}
-			}
 			ans.add(first);
 		}
 		ArrayList<node_data> ans2 = new ArrayList<>();
@@ -234,7 +235,7 @@ public class Graph_Algo implements graph_algorithms {
 		graph copy = new DGraph();
 		Collection<node_data> nColl = this.GA.getV();
 		for (node_data node : nColl) {
-			node_data temp = new Node((Node) node);
+			node_data temp = new Node((Node) node );
 			copy.addNode(node);
 		}
 		Collection<node_data> nColl2 = this.GA.getV();
@@ -248,7 +249,5 @@ public class Graph_Algo implements graph_algorithms {
 		}
 		return copy;
 	}
-
-
 }
 

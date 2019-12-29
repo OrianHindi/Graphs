@@ -36,16 +36,16 @@ public class DGraph implements graph , Serializable {
 			return this.Nodemap.get(key);
 		}
 		catch (Exception e){
-			throw new RuntimeException(" the Node isnt exist.");
+			throw new RuntimeException(" The Node isnt exist.");
 		}
 	}
 
 
 	public edge_data getEdge(int src, int dest) {
 		try {
-			return this.Edgemap.get(src).get(dest);
+			return this.Edgemap.get(src).get(dest); // if null point exception
 		}
-		catch(NullPointerException e){
+		catch(NullPointerException e){ //return null.
 			return null;
 		}
 	}
@@ -71,10 +71,13 @@ public class DGraph implements graph , Serializable {
 					this.Edgemap.get(src).put(dest, temp);
 				}
 			}
+			else{
+				this.removeEdge(src,dest);
+				this.connect(src,dest,w);
+			}
 		}
 		else {
-			System.err.println("Wrong input,Missing Nodes.");
-			return;
+			throw new RuntimeException("Wrong input, Missing node.");
 		}
 		this.edgeSize++;
 		this.MC++;
@@ -98,10 +101,10 @@ public class DGraph implements graph , Serializable {
 
 	public node_data removeNode(int key) {
 		node_data removed = this.getNode(key);
-		if(removed!=null){
+		if(removed!=null){       //remove the node from the node hash.
 			this.Nodemap.remove(key);
 			this.nodeSize--;
-			if(this.Edgemap.get(key)!=null)this.Edgemap.remove(key);
+			if(this.Edgemap.get(key)!=null)this.Edgemap.remove(key); // remove all the edge that key is src of them.
 			Iterator iterator = this.Edgemap.entrySet().iterator();
 			while(iterator.hasNext()){
 				Map.Entry map =(Map.Entry)iterator.next();
@@ -148,14 +151,17 @@ public class DGraph implements graph , Serializable {
 		Node first = new Node(new Point3D(5,6));
 		Node second = new Node(new Point3D(40,5));
 		Node third = new Node(new Point3D(40,-42));
+		Node fourth = new Node(new Point3D(10,4));
 		check.addNode(first);
 		check.addNode(second);
 		check.addNode(third);
+		check.addNode(fourth);
+		check.connect(first.getKey(),second.getKey(),5);
+		check.connect(second.getKey(),third.getKey(),60);
+		check.connect(third.getKey(),first.getKey(),10);
 		Graph_Algo p = new Graph_Algo();
 		p.init(check);
-		p.save("CHECK");
-		Graph_GUI d = new Graph_GUI();
-
+		System.out.println(p.shortestPath(first.getKey(),first.getKey()));
 
 
 

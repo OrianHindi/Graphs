@@ -14,21 +14,6 @@ public class Node implements node_data, Serializable {
     static private int keyNum=1;
 
 
-    public Node(){
-        this.key=keyNum++;
-        this.weight=0;
-        this.tag=0;
-        this.location=null;
-        this.info=null;
-    }
-
-    public Node(double weight,int tag,Point3D p,String info){
-        this.key= keyNum++;
-        this.weight=weight;
-        this.tag=tag;
-        this.location=new Point3D(p);
-        this.info=info;
-    }
     public Node(Node s){
         this.key=s.key;
         this.tag= s.tag;
@@ -45,11 +30,6 @@ public class Node implements node_data, Serializable {
     @Override
     public int getKey() {
         return this.key;
-    }
-
-
-    public void setKey(int key){
-        this.key=key;
     }
 
     @Override
