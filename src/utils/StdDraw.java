@@ -82,7 +82,7 @@ import java.util.TreeSet;
  *  If you compile and execute the program, you should see a window
  *  appear with a thick magenta line and a blue point.
  *  This program illustrates the two main types of methods in standard
- *  drawingג€”methods that draw geometric shapes and methods that
+ *  drawing׳’ג‚¬ג€methods that draw geometric shapes and methods that
  *  control drawing parameters.
  *  The methods {@code StdDraw.line()} and {@code StdDraw.point()}
  *  draw lines and points; the methods {@code StdDraw.setPenRadius()}
@@ -277,7 +277,7 @@ import java.util.TreeSet;
  *  or rescale it to fit snugly inside a width-by-height bounding box.
  *  <p>
  *  <b>Saving to a file.</b>
- *  You save your image to a file using the <em>File ג†’ Save</em> menu option.
+ *  You save your image to a file using the <em>File ׳’ג€ ג€™ Save</em> menu option.
  *  You can also save a file programatically using the following method:
  *  <ul>
  *  <li> {@link #save(String filename)}
@@ -313,7 +313,7 @@ import java.util.TreeSet;
  *  <p>
  *  By default, double buffering is disabled, which means that as soon as you
  *  call a drawing
- *  methodג€”such as {@code point()} or {@code line()}ג€”the
+ *  method׳’ג‚¬ג€such as {@code point()} or {@code line()}׳’ג‚¬ג€the
  *  results appear on the screen.
  *  <p>
  *  When double buffering is enabled by calling {@link #enableDoubleBuffering()},
@@ -403,7 +403,7 @@ import java.util.TreeSet;
  *  <li> Any method that is passed a {@code null} argument will throw an
  *       {@link IllegalArgumentException}.
  *  <li> Except as noted in the APIs, drawing an object outside (or partly outside)
- *       the canvas is permittedג€”however, only the part of the object that
+ *       the canvas is permitted׳’ג‚¬ג€however, only the part of the object that
  *       appears inside the canvas will be visible.
  *  <li> Except as noted in the APIs, all methods accept {@link Double#NaN},
  *       {@link Double#POSITIVE_INFINITY}, and {@link Double#NEGATIVE_INFINITY}
@@ -411,7 +411,7 @@ import java.util.TreeSet;
  *       that is NaN will behave as if it is outside the canvas, and will not be visible.
  *  <li> Due to floating-point issues, an object drawn with an <em>x</em>- or
  *       <em>y</em>-coordinate that is way outside the canvas (such as the line segment
- *       from (0.5, ג€“&infin;) to (0.5, &infin;) may not be visible even in the
+ *       from (0.5, ׳’ג‚¬ג€&infin;) to (0.5, &infin;) may not be visible even in the
  *       part of the canvas where it should be.
  *  </ul>
  *  <p>
@@ -578,7 +578,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	private static Object keyLock = new Object();
 
 	// default font
-	private static final Font DEFAULT_FONT = new Font("SansSerif", Font.PLAIN, 14);
+	private static final Font DEFAULT_FONT = new Font("SansSerif", Font.PLAIN, 16);
 
 	// current font
 	private static Font font;
@@ -1251,7 +1251,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 * Draws a polygon with the vertices
 	 * (<em>x</em><sub>0</sub>, <em>y</em><sub>0</sub>),
 	 * (<em>x</em><sub>1</sub>, <em>y</em><sub>1</sub>), ...,
-	 * (<em>x</em><sub><em>n</em>ג€“1</sub>, <em>y</em><sub><em>n</em>ג€“1</sub>).
+	 * (<em>x</em><sub><em>n</em>׳’ג‚¬ג€1</sub>, <em>y</em><sub><em>n</em>׳’ג‚¬ג€1</sub>).
 	 *
 	 * @param  x an array of all the <em>x</em>-coordinates of the polygon
 	 * @param  y an array of all the <em>y</em>-coordinates of the polygon
@@ -1280,7 +1280,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 * Draws a polygon with the vertices
 	 * (<em>x</em><sub>0</sub>, <em>y</em><sub>0</sub>),
 	 * (<em>x</em><sub>1</sub>, <em>y</em><sub>1</sub>), ...,
-	 * (<em>x</em><sub><em>n</em>ג€“1</sub>, <em>y</em><sub><em>n</em>ג€“1</sub>).
+	 * (<em>x</em><sub><em>n</em>׳’ג‚¬ג€1</sub>, <em>y</em><sub><em>n</em>׳’ג‚¬ג€1</sub>).
 	 *
 	 * @param  x an array of all the <em>x</em>-coordinates of the polygon
 	 * @param  y an array of all the <em>y</em>-coordinates of the polygon
@@ -1672,7 +1672,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 		File file = new File(filename);
 		String suffix = filename.substring(filename.lastIndexOf('.') + 1);
 
-		 //png files
+		//png files
 		if ("png".equalsIgnoreCase(suffix)) {
 			try {
 				ImageIO.write(onscreenImage, suffix, file);
@@ -1683,7 +1683,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 		}
 
 //	 need to change from ARGB to RGB for JPEG
-	//	 reference: http://archives.java.sun.com/cgi-bin/wa?A2=ind0404&L=java2d-interest&D=0&P=2727
+		//	 reference: http://archives.java.sun.com/cgi-bin/wa?A2=ind0404&L=java2d-interest&D=0&P=2727
 		else if ("jpg".equalsIgnoreCase(suffix)) {
 			WritableRaster raster = onscreenImage.getRaster();
 			WritableRaster newRaster;
@@ -1748,7 +1748,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				String load_name = load_window.getFile();
 				if(load_name!=null){
 					g.load(load_window.getDirectory() + File.separator + load_window.getFile());
-					g.openCanvas();
+					g.printGraph();
 				}
 				break;
 
@@ -1778,8 +1778,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				int srcNode=24001;
 				int dstNode=240001;
 				try {
-					 srcNode = Integer.parseInt(Src);
-					 dstNode = Integer.parseInt(Dst);
+					srcNode = Integer.parseInt(Src);
+					dstNode = Integer.parseInt(Dst);
 				}
 				catch (Exception badInput){
 					System.err.println("Please enter 2 good keys");
@@ -1788,6 +1788,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				}
 				double shortestPath = g.ShortestPath(srcNode,dstNode);
 				ArrayList<node_data> way = (ArrayList)g.ShortestPathList(srcNode,dstNode);
+				if(way.size()==0){
+					JOptionPane.showMessageDialog(SrcAndDist,"There is no a path between the nodes.");
+					break;
+				}
 				g.showPath(way);
 				JOptionPane.showMessageDialog(SrcAndDist,"The Shortest path is :" + shortestPath);
 				isRepaint = 1;
@@ -1805,10 +1809,14 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				int dstKey = Integer.parseInt(DstList);
 				StringBuilder stringList = new StringBuilder();
 				ArrayList<node_data> nodelist= (ArrayList)g.ShortestPathList(srcKey,dstKey);
+				if(nodelist.size()==0){
+					JOptionPane.showMessageDialog(ShortestList,"There is no a path between the nodes.");
+					break;
+				}
 				stringList.append("" + nodelist.get(0).getKey() + "->");
 				for (int i = 1; i <nodelist.size() ; i++) {
 					if(i!=nodelist.size()-1)
-					stringList.append("" + nodelist.get(i).getKey() + "->");
+						stringList.append("" + nodelist.get(i).getKey() + "->");
 					else stringList.append("" + nodelist.get(i).getKey());
 				}
 				g.showPath(nodelist);
@@ -2165,16 +2173,16 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (isAddNode == 1) {
-			double pointX = mouseX();
-			double pointY = mouseY();
+			double pointX = mouseX;
+			double pointY = mouseY;
 			g.add_node(pointX, pointY);
 			isAddNode = 0;
 			isRemoveNode = 0;
 			g.printGraph();
 		}
 		if (isRemoveNode == 1) {
-			double removex = mouseX();
-			double removey = mouseY();
+			double removex = mouseX;
+			double removey = mouseY;
 			node_data ans = g.findNode(removex, removey);
 			if (ans != null) {
 				g.remove_node(ans.getKey());
@@ -2371,5 +2379,5 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
 
 
-//Copyright ֲ© 2000ג€“2017, Robert Sedgewick and Kevin Wayne.
+//Copyright ײ²ֲ© 2000׳’ג‚¬ג€2017, Robert Sedgewick and Kevin Wayne.
 //Last updated: Mon Aug 27 16:43:47 EDT 2018.

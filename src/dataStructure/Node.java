@@ -11,7 +11,7 @@ public class Node implements node_data, Serializable {
     private int tag=0;
     private Point3D location;
     private String info;
-    static private int keyNum=1;
+    static public int keyNum=1;
 
 
     public Node(Node s){

@@ -147,21 +147,66 @@ public class DGraph implements graph , Serializable {
 
 	public static void main(String[] args) {
 
-		DGraph check = new DGraph();
-		Node first = new Node(new Point3D(5,6));
-		Node second = new Node(new Point3D(40,5));
-		Node third = new Node(new Point3D(40,-42));
-		Node fourth = new Node(new Point3D(10,4));
-		check.addNode(first);
-		check.addNode(second);
-		check.addNode(third);
-		check.addNode(fourth);
-		check.connect(first.getKey(),second.getKey(),5);
-		check.connect(second.getKey(),third.getKey(),60);
-		check.connect(third.getKey(),first.getKey(),10);
+		Point3D x = new Point3D(14,4,0);
+		Point3D x2 = new Point3D(-75,14,0);
+		Point3D x3 = new Point3D(80,5,0);
+		Point3D x4 = new Point3D(1,4,0);
+		Point3D x5 = new Point3D(-5,1,0);
+		Point3D x6 = new Point3D(8,3,0);
+		Point3D x7 = new Point3D(4,1,0);
+		Point3D x8 = new Point3D(75,14,0);
+		node_data a1 = new Node(x);
+		node_data a2 = new Node(x2);
+		node_data a3 = new Node(x3);
+		node_data a4 = new Node(x4);
+		node_data a5 = new Node(x5);
+		node_data a6 = new Node(x6);
+		node_data a7 = new Node(x7);
+		node_data a8 = new Node(x8);
+		DGraph d = new DGraph();
+		d.addNode(a1);
+		d.addNode(a2);
+		d.addNode(a3);
+		d.addNode(a4);
+		d.addNode(a5);
+		d.addNode(a6);
+		d.addNode(a7);
+		d.addNode(a8);
+		d.connect(a1.getKey(),a2.getKey(),5);
+		d.connect(a1.getKey(),a5.getKey(),2);
+		d.connect(a1.getKey(),a3.getKey(),6);
+		d.connect(a1.getKey(),a6.getKey(),5);
+		d.connect(a3.getKey(),a4.getKey(),7);
+		d.connect(a2.getKey(),a8.getKey(),8);
+		d.connect(a2.getKey(),a7.getKey(),3);
+		d.connect(a5.getKey(),a1.getKey(),5);
+		d.connect(a5.getKey(),a6.getKey(),2);
+		d.connect(a6.getKey(),a1.getKey(),3);
+		d.connect(a6.getKey(),a5.getKey(),3);
+		d.connect(a6.getKey(),a7.getKey(),3);
+		d.connect(a7.getKey(),a6.getKey(),3);
+		Node ps= (Node)d.getNode(10);
+		System.out.println(ps);
+		edge_data ps1 = d.getEdge(6,12);
 		Graph_Algo p = new Graph_Algo();
-		p.init(check);
-		System.out.println(p.shortestPath(first.getKey(),first.getKey()));
+		p.init(d);
+		List<Integer> r = new LinkedList<>();
+		r.add(a1.getKey());
+		r.add(a6.getKey());
+		r.add(a5.getKey());
+		List<node_data> ans = p.TSP(r);
+		//System.out.println(d.getNode(7).getWeight());
+		System.out.println(p.shortestPathDist(a1.getKey(),a6.getKey()));
+		System.out.println(a6.getInfo());
+		List<node_data> ans1 = p.shortestPath(a1.getKey(),a6.getKey());
+		List<node_data> ans2 = p.shortestPath(a5.getKey(),a6.getKey());
+		System.out.println("tsp" + ans);
+
+
+		System.out.println(ans2);
+
+		System.out.println(ans);
+
 
 
 

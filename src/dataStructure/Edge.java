@@ -24,6 +24,9 @@ public class Edge implements edge_data, Serializable {
         this.info=info;
         this.tag=tag;
     }
+    public Edge(Edge p){
+        this(p.getSrc(),p.getDest(),p.getWeight(),p.getInfo(),p.getTag());
+    }
 
     @Override
     public int getSrc() {

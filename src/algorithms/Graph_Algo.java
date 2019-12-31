@@ -125,10 +125,16 @@ public class Graph_Algo implements graph_algorithms {
 					edge_data temp1 = (edge_data) it1.next();
 					if (temp1 != null && temp1.getTag() == 0) {
 						if (g.getEdge(temp1.getDest(), temp1.getSrc()) != null) {
-							g.getEdge(temp1.getDest(), temp1.getSrc()).setTag(1);
-							temp1.setTag(1);
+							Edge temps = new Edge((Edge)g.getEdge(temp1.getSrc(),temp1.getDest()));
+							double weight1 = g.getEdge(temp1.getSrc(),temp1.getDest()).getWeight();
+							double weight2 = g.getEdge(temp1.getDest(),temp1.getSrc()).getWeight();
+							g.connect(temp1.getSrc(),temp1.getDest(),weight2);
+							g.connect(temps.getDest(),temps.getSrc(),weight1);
+							g.getEdge(temps.getDest(), temps.getSrc()).setTag(1);
+							g.getEdge(temps.getSrc(),temps.getDest()).setTag(1);
+							it1 = g.getE(temp.getKey()).iterator();
 						} else {
-							g.connect(temp1.getDest(), temp1.getSrc(), temp.getWeight());
+							g.connect(temp1.getDest(), temp1.getSrc(), temp1.getWeight());
 							g.getEdge(temp1.getDest(), temp1.getSrc()).setTag(1);
 							g.removeEdge(temp1.getSrc(), temp1.getDest());
 							it1 = g.getE(temp.getKey()).iterator();
@@ -160,7 +166,7 @@ public class Graph_Algo implements graph_algorithms {
 		return ans;
 	}
 
-	public void STPRec(node_data n, node_data dest) {
+	private void STPRec(node_data n, node_data dest) {
 		if (n.getKey() == dest.getKey() || n.getTag() == 1) {
 			return;
 		}
@@ -179,7 +185,7 @@ public class Graph_Algo implements graph_algorithms {
 
 	@Override
 	public List<node_data> shortestPath(int src, int dest) {
-		ArrayList<node_data> ans = new ArrayList<>();
+		List<node_data> ans = new ArrayList<>();
 		this.shortestPathDist(src, dest);
 		if(this.GA.getNode(src).getWeight() == Integer.MAX_VALUE || this.GA.getNode(dest).getWeight() == Integer.MAX_VALUE){
 			System.out.print("There is not a path between the nodes.");
@@ -188,19 +194,21 @@ public class Graph_Algo implements graph_algorithms {
 		graph copied = this.copy();
 		transPose(copied);
 		node_data first = copied.getNode(dest);
+		System.out.println(first.getWeight());
 		ans.add(first);
-		double minWeight = Integer.MAX_VALUE;
 		while (first.getKey() != src) {
 			Collection<edge_data> temp = copied.getE(first.getKey());
+			double check= first.getWeight();
+			if(temp!=null) {
 				for (edge_data edge : temp) {
-					if (copied.getNode(edge.getDest()).getWeight() < minWeight) {
-						minWeight = copied.getNode(edge.getDest()).getWeight();
+					if (copied.getNode(edge.getDest()).getWeight() + edge.getWeight() == check) {
 						first = copied.getNode(edge.getDest());
 					}
 				}
+			}
 			ans.add(first);
 		}
-		ArrayList<node_data> ans2 = new ArrayList<>();
+		List<node_data> ans2 = new ArrayList<>();
 		for (int i = ans.size()-1;i>=0;i--){
 			ans2.add(ans.get(i));
 		}
@@ -209,24 +217,33 @@ public class Graph_Algo implements graph_algorithms {
 
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
-		int index=0;
-		int tempIndex =0;
-		int targetsIndex=0;
-		boolean flag = true;
-		List<node_data> ans = new LinkedList<>();
-		List<node_data> temp = new LinkedList<>();
-		while(!targets.isEmpty()){
-			temp = shortestPath(targetsIndex,targetsIndex+1);
-			for (int i = 0; i <temp.size() ; i++) {
-				if(!ans.contains(temp.get(i)) && targets.contains(temp.get(i).getKey())){
-					ans.add(temp.get(i));
-					targets.remove(temp.get(i).getKey());
+		List<node_data> ans = new ArrayList<>();
+		int help=targets.get(0);
+		int targetSize = targets.size();
+		for (int i = 0; i <targetSize-1 ; i++) {
+			double minWeight = Integer.MAX_VALUE;
+			int geti=0;
+			for (int j = 0; j <targetSize-1 ; j++) {
+				if(shortestPathDist(help,targets.get(j)) !=0 &&shortestPathDist(help,targets.get(j))<minWeight){
+					minWeight=shortestPathDist(help,targets.get(j));
+					geti =targets.get(j);
+					System.out.println("minwe" + minWeight +"  geti" + geti);
 				}
-
 			}
-
+			List<node_data> ans2 = new ArrayList<>();
+			ans2=shortestPath(help,geti);
+			ans.addAll(ans2);
+			targets.remove((Integer)help);
+			System.out.println(targets);
+			help=geti-1;
+			System.out.println("help " + help);
+			System.out.println("ans" + ans );
 		}
-
+		for (int i = 0; i <ans.size()-1 ; i++) {
+			if(ans.get(i)==ans.get(i+1)){
+				ans.remove(i);
+			}
+		}
 		return ans;
 	}
 
