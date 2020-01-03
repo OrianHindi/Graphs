@@ -9,7 +9,7 @@ public class Edge implements edge_data, Serializable {
     private String info;
     private int tag;
 
-
+   //-----------Constructors------------
     public Edge(int src,int dest,double weight){
         this.src=src;
         this.dest=dest;
@@ -28,6 +28,8 @@ public class Edge implements edge_data, Serializable {
         this(p.getSrc(),p.getDest(),p.getWeight(),p.getInfo(),p.getTag());
     }
 
+
+    //----------Getters & Setters--------------
     @Override
     public int getSrc() {
         return this.src;

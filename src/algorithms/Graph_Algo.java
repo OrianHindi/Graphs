@@ -220,24 +220,26 @@ public class Graph_Algo implements graph_algorithms {
 		List<node_data> ans = new ArrayList<>();
 		int help=targets.get(0);
 		int targetSize = targets.size();
-		for (int i = 0; i <targetSize-1 ; i++) {
+		while(!targets.isEmpty()) {
 			double minWeight = Integer.MAX_VALUE;
 			int geti=0;
-			for (int j = 0; j <targetSize-1 ; j++) {
-				if(shortestPathDist(help,targets.get(j)) !=0 &&shortestPathDist(help,targets.get(j))<minWeight){
-					minWeight=shortestPathDist(help,targets.get(j));
-					geti =targets.get(j);
-					System.out.println("minwe" + minWeight +"  geti" + geti);
+			for (int j = 0; j <targetSize ; j++) {
+				if(shortestPathDist(help,targets.get(j)) !=0 &&shortestPathDist(help,targets.get(j))<minWeight || targets.size()==1 && shortestPathDist(help,targets.get(j)) ==0) {
+					minWeight = shortestPathDist(help, targets.get(j));
+					geti = targets.get(j);
 				}
 			}
 			List<node_data> ans2 = new ArrayList<>();
-			ans2=shortestPath(help,geti);
-			ans.addAll(ans2);
-			targets.remove((Integer)help);
-			System.out.println(targets);
-			help=geti-1;
-			System.out.println("help " + help);
-			System.out.println("ans" + ans );
+			if(targets.size()>1) {
+				ans2 = shortestPath(help, geti);
+				ans.addAll(ans2);
+				targets.remove((Integer) help);
+				targetSize--;
+			}
+			else{
+				targets.remove((Integer)geti);
+			}
+			help=geti;
 		}
 		for (int i = 0; i <ans.size()-1 ; i++) {
 			if(ans.get(i)==ans.get(i+1)){

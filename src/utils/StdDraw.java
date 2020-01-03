@@ -19,6 +19,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.TreeSet;
 
@@ -1754,6 +1755,35 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
 			case "Clean...":
 				StdDraw.g= new Graph_GUI();
+				break;
+
+			case "TSP":
+				if(isRepaint==1){
+					g.printGraph();
+					isRepaint=0;
+				}
+				JFrame TSPLIST = new JFrame();
+				String list = JOptionPane.showInputDialog(TSPLIST,"Please enter keys.","Shape of x,y,z,w",1);
+				String[] arr = list.split(",");
+				List<Integer> qq = new LinkedList<>();
+				StringBuilder pathString = new StringBuilder();
+				for (String str: arr) {
+					qq.add(Integer.parseInt(str));
+				}
+				ArrayList<node_data> show= (ArrayList)g.TSP(qq);
+				if(show.size()==0){
+					JOptionPane.showMessageDialog(TSPLIST,"There is no a path between the nodes.");
+					break;
+				}
+				pathString.append("" + show.get(0).getKey() + "->");
+				for (int i = 1; i <show.size() ; i++) {
+					if(i!=show.size()-1)
+						pathString.append("" + show.get(i).getKey() + "->");
+					else pathString.append("" + show.get(i).getKey());
+				}
+				g.showPath(show);
+				JOptionPane.showMessageDialog(TSPLIST,"Shortest path is:" + pathString.toString());
+				isRepaint=1;
 				break;
 
 			case "isConnected":

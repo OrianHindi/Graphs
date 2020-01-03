@@ -13,7 +13,10 @@ public class Node implements node_data, Serializable {
     private String info;
     static public int keyNum=1;
 
-
+    /**
+     * Copy Constructor.
+     * @param s  node to copy.
+     */
     public Node(Node s){
         this.key=s.key;
         this.tag= s.tag;
@@ -21,12 +24,18 @@ public class Node implements node_data, Serializable {
         this.info=s.info;
         this.location= new Point3D(s.location);
     }
+
+    /**
+     * Constructor by point
+     * @param p point that we be the Node location.
+     */
     public Node(Point3D p){
         this.key=keyNum++;
         this.location=p;
         this.info="";
     }
 
+    //---------------- Getters & Setters-----------------
     @Override
     public int getKey() {
         return this.key;
