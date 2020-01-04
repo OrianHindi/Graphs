@@ -76,8 +76,8 @@ public class DGraphTest {
         p.addNode(a1);
         p.addNode(a2);
 
-        assertEquals(p.getNode(7), a1);
-        assertEquals(p.getNode(8), a2);
+        assertEquals(p.getNode(a1.getKey()), a1);
+        assertEquals(p.getNode(a2.getKey()), a2);
     }
 
     @Test
@@ -98,10 +98,26 @@ public class DGraphTest {
 
     @Test
     public void getV() {
+        DGraph p = new DGraph();
+        node_data a1 = new Node(new Point3D(7,8,3));
+        node_data a2 = new Node(new Point3D(1,5,3));
+
+        p.addNode(a1);
+        p.addNode(a2);
+        assertEquals(p.getV().toString(), "[7, 8]");
     }
 
     @Test
     public void getE() {
+        DGraph p = new DGraph();
+        node_data a1 = new Node(new Point3D(7,8,3));
+        node_data a2 = new Node(new Point3D(1,5,3));
+
+        p.addNode(a1);
+        p.addNode(a2);
+
+        p.connect(a1.getKey(),a2.getKey(),1);
+        assertEquals(p.getE(a1.getKey()).toString(), "[<7,8,1.0>]");
     }
 
     @Test
@@ -113,12 +129,12 @@ public class DGraphTest {
         p.addNode(a1);
         p.addNode(a2);
         p.addNode(a3);
-        p.removeNode(1);
-        p.removeNode(2);
-        p.removeNode(3);
-        assertEquals(null,p.getNode(1));
-        assertEquals(null,p.getNode(2));
-        assertEquals(null,p.getNode(3));
+        p.removeNode(a1.getKey());
+        p.removeNode(a2.getKey());
+        p.removeNode(a3.getKey());
+        assertEquals(null,p.getNode(a1.getKey()));
+        assertEquals(null,p.getNode(a2.getKey()));
+        assertEquals(null,p.getNode(a3.getKey()));
     }
 
     @Test
