@@ -167,7 +167,7 @@ public class Graph_Algo implements graph_algorithms {
 	}
 
 	private void STPRec(node_data n, node_data dest) {
-		if (n.getKey() == dest.getKey() || n.getTag() == 1) {
+		if (n.getKey() == dest.getKey() && n.getTag() == 1) {
 			return;
 		}
 		Collection<edge_data> temp = this.GA.getE(n.getKey());
@@ -194,7 +194,6 @@ public class Graph_Algo implements graph_algorithms {
 		graph copied = this.copy();
 		transPose(copied);
 		node_data first = copied.getNode(dest);
-		System.out.println(first.getWeight());
 		ans.add(first);
 		while (first.getKey() != src) {
 			Collection<edge_data> temp = copied.getE(first.getKey());

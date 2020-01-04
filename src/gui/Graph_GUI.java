@@ -16,8 +16,8 @@ import java.util.List;
 public class Graph_GUI extends Thread {
     public static DGraph graph= new DGraph();
     public static Graph_Algo graph_algo= new Graph_Algo();
-    private static Range xRange;
-    private static Range yRange;
+    private static Range xRange= new Range(0,0);
+    private static Range yRange= new Range(0,0);
     private double ModeCount=0;
 
 
