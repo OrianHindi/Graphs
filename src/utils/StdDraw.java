@@ -638,8 +638,6 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 *         {@code canvasHeight} are positive
 	 */
 	public static Graph_GUI g;
-	public static int isAddNode=0;
-	public static int isRemoveNode=0;
 	public static int isRepaint =0;
 
 	public static void setCanvasSize(int canvasWidth, int canvasHeight) {
@@ -723,14 +721,15 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
 		JMenu node = new JMenu("Node");
 		EDIT.add(node);
-		JMenu add_node = new JMenu("Add Node");
+		JMenuItem add_node = new JMenuItem("Add Node");
 		node.add(add_node);
-		JMenuItem add_ByClick = new JMenuItem("Add By Click");
-		add_node.add(add_ByClick);
-		add_ByClick.addActionListener(std);
-		JMenuItem add_ByPoint= new JMenuItem("Add By Point");
-		add_node.add(add_ByPoint);
-		add_ByPoint.addActionListener(std);
+		add_node.addActionListener(std);
+//		JMenuItem add_ByClick = new JMenuItem("Add By Click");
+//		add_node.add(add_ByClick);
+//		add_ByClick.addActionListener(std);
+//		JMenuItem add_ByPoint= new JMenuItem("Add By Point");
+//		add_node.add(add_ByPoint);
+//		add_ByPoint.addActionListener(std);
 
 		JMenu edge = new JMenu("Edge");
 		EDIT.add(edge);
@@ -739,17 +738,18 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 		add_edge.addActionListener(std);
 		add_edge.addMenuDragMouseListener(std);
 
-		JMenu remove_node = new JMenu("Remove Node");
+		JMenuItem remove_node = new JMenuItem("Remove Node");
 		node.add(remove_node);
+		remove_node.addActionListener(std);
 
 
-		JMenuItem removeclick = new JMenuItem("Remove By Click");
-		remove_node.add(removeclick);
-		removeclick.addActionListener(std);
-
-		JMenuItem removepoint = new JMenuItem("Remove By Key");
-		remove_node.add(removepoint);
-		removepoint.addActionListener(std);
+//		JMenuItem removeclick = new JMenuItem("Remove By Click");
+//		remove_node.add(removeclick);
+//		removeclick.addActionListener(std);
+//
+//		JMenuItem removepoint = new JMenuItem("Remove By Key");
+//		remove_node.add(removepoint);
+//		removepoint.addActionListener(std);
 
 
 		JMenuItem remove_edge = new JMenuItem("Remove Edge");
@@ -1749,7 +1749,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				String load_name = load_window.getFile();
 				if(load_name!=null){
 					g.load(load_window.getDirectory() + File.separator + load_window.getFile());
-					g.printGraph();
+					g.openCanvas();
 				}
 				break;
 
@@ -1771,7 +1771,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 					qq.add(Integer.parseInt(str));
 				}
 				ArrayList<node_data> show= (ArrayList)g.TSP(qq);
-				if(show.size()==0){
+				if(show == null){
 					JOptionPane.showMessageDialog(TSPLIST,"There is no a path between the nodes.");
 					break;
 				}
@@ -1817,11 +1817,11 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 					break;
 				}
 				double shortestPath = g.ShortestPath(srcNode,dstNode);
-				ArrayList<node_data> way = (ArrayList)g.ShortestPathList(srcNode,dstNode);
-				if(way.size()==0){
+				if(shortestPath== Integer.MAX_VALUE){
 					JOptionPane.showMessageDialog(SrcAndDist,"There is no a path between the nodes.");
 					break;
 				}
+				ArrayList<node_data> way = (ArrayList)g.ShortestPathList(srcNode,dstNode);
 				g.showPath(way);
 				JOptionPane.showMessageDialog(SrcAndDist,"The Shortest path is :" + shortestPath);
 				isRepaint = 1;
@@ -1835,16 +1835,25 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				JFrame ShortestList= new JFrame();
 				String SrcList = JOptionPane.showInputDialog(ShortestList,"Please enter Src key.");
 				String DstList = JOptionPane.showInputDialog(ShortestList,"Please enter Dst Key");
-				int srcKey = Integer.parseInt(SrcList);
-				int dstKey = Integer.parseInt(DstList);
+				int srcKey = 2000;
+				int dstKey= 2000;
+				try{
+					srcKey = Integer.parseInt(SrcList);
+					dstKey = Integer.parseInt(DstList);
+				}
+				catch (Exception e1 ){
+					System.err.println("Please enter 2 good keys");
+					JOptionPane.showMessageDialog(ShortestList,"Error:Please enter 2 good keys ","Error",0);
+					break;
+
+				}
 				StringBuilder stringList = new StringBuilder();
 				ArrayList<node_data> nodelist= (ArrayList)g.ShortestPathList(srcKey,dstKey);
-				if(nodelist.size()==0){
+				if(nodelist == null){
 					JOptionPane.showMessageDialog(ShortestList,"There is no a path between the nodes.");
 					break;
 				}
-				stringList.append("" + nodelist.get(0).getKey() + "->");
-				for (int i = 1; i <nodelist.size() ; i++) {
+				for (int i = 0; i <nodelist.size() ; i++) {
 					if(i!=nodelist.size()-1)
 						stringList.append("" + nodelist.get(i).getKey() + "->");
 					else stringList.append("" + nodelist.get(i).getKey());
@@ -1854,7 +1863,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				isRepaint=1;
 				break;
 
-			case "Add By Point":
+			case "Add Node":
 				if(isRepaint==1){
 					g.printGraph();
 					isRepaint=0;
@@ -1927,7 +1936,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				break;
 
 
-			case "Remove By Key":
+			case "Remove Node":
 				if(isRepaint==1){
 					g.printGraph();
 					isRepaint=0;
@@ -1947,25 +1956,6 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				g.printGraph();
 				break;
 
-			case "Add By Click":
-				if(isRepaint==1){
-					g.printGraph();
-					isRepaint=0;
-				}
-				isAddNode=1;
-				isRemoveNode=0;
-				frame.addMouseListener(this);
-				break;
-
-			case"Remove By Click":
-				if(isRepaint==1){
-					g.printGraph();
-					isRepaint=0;
-				}
-				isRemoveNode=1;
-				isAddNode=0;
-				frame.addMouseListener(this);
-				break;
 		}
 
 	}
@@ -1974,59 +1964,6 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	/**
 	 * This method cannot be called directly.
 	 */
-
-//	JMenu EDIT = new JMenu("EDIT");
-//		menuBar.add(EDIT);
-//
-//	JMenuItem add_node = new JMenuItem("add node...");
-//		EDIT.add(add_node);
-//		add_node.addActionListener(std);
-//		add_node.addMenuDragMouseListener(std);
-
-
-
-
-
-
-
-
-//	public class Action extends JFrame {
-//		public void actionPerformed(ActionEvent e) {
-//			if (e.getActionCommand().equals("add node...")) {
-//
-//				JPanel jp = new JPanel();
-//				JLabel jl = new JLabel();
-//				JTextField jt = new JTextField("Enter x", 30);
-//				JButton jb = new JButton("Enter");
-//
-//				setTitle("Add x");
-//				setVisible(true);
-//				setSize(400, 200);
-//				setDefaultCloseOperation(EXIT_ON_CLOSE);
-//
-//				jp.add(jt);
-//				jt.addActionListener(new ActionListener() {
-//					@Override
-//					public void actionPerformed(ActionEvent e) {
-//						String x = jt.getText();
-//						jl.setText(x);
-//						x = jl.getText();
-//						System.out.println(x);
-//						double x1 = Double.parseDouble(x);
-//
-//						String y = jt.getText();
-//						jl.setText(y);
-//						y = jl.getText();
-//						double y1 = Double.parseDouble(y);
-//
-//						g.add_node(x1, y1, 0);
-//					}
-//				});
-//				jp.add(jb);
-//			}
-//			else System.out.println("bdj");
-//		}
-//	}
 	/**
 	 JTextField jt = new JTextField("Enter x: ", 30);
 	 JTextField jt1 = new JTextField("Enter y: ", 30);
@@ -2049,101 +1986,6 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 }
 
 	 **/
-
-
-
-
-
-
-//	public class Action extends JFrame {
-//		JPanel jp = new JPanel();
-//		JLabel jl = new JLabel();
-//		JTextField jt = new JTextField("Enter x", 30);
-//		JButton jb = new JButton("Enter");
-//
-//		public Action() {
-//			setTitle("Add x");
-//			setVisible(true);
-//			setSize(400, 200);
-//			setDefaultCloseOperation(EXIT_ON_CLOSE);
-//
-//			jp.add(jt);
-//			jt.addActionListener(new ActionListener() {
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					String input = jt.getText();
-//					jl.setText(input);
-//				}
-//			});
-//			jp.add(jb);
-//			jb.addActionListener(new ActionListener() {
-//
-//
-//
-//
-//
-//
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					String input = jt.getText();
-//					jl.setText(input);
-//
-//				}
-//			});
-//			jp.add(jl);
-//			add(jp);
-//		}
-//
-//	}
-
-
-
-
-	//boolean b = false;
-//			@Override
-//			public void actionPerformed(ActionEvent arg0) {
-//				b= Graph_GUI.isConnected();
-//				if (b) {
-//					System.out.println("connected!");
-//				}
-//				else System.out.println("Not connected!");
-//				//frame.repaint();
-//				StdDraw.clear();
-//			}
-//
-//		});
-
-//		public void actionPerformed(ActionEvent e) {
-//			Graph_GUI.save();
-//
-//		});
-
-//	 switch(e.getSource()){
-//		case radius:
-//			double r = validate(radius.getText());
-//			break;
-//		case height:
-//			double h = validate(height.getText());
-//			break;
-//		case out:
-//			out.setText(String.valueOf(h*r));
-//			break;
-
-
-//		switch(e.getSource()){
-//			case "add_node":
-//			boolean b = false;
-//			b = Graph_GUI.isConnected();
-//			if (b) {
-//				System.out.println("connected!");
-//			} else System.out.println("Not connected!");
-//			//frame.repaint();
-//			StdDraw.clear();
-
-
-
-
-
 
 
 	/***************************************************************************
@@ -2202,25 +2044,6 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (isAddNode == 1) {
-			double pointX = mouseX;
-			double pointY = mouseY;
-			g.add_node(pointX, pointY);
-			isAddNode = 0;
-			isRemoveNode = 0;
-			g.printGraph();
-		}
-		if (isRemoveNode == 1) {
-			double removex = mouseX;
-			double removey = mouseY;
-			node_data ans = g.findNode(removex, removey);
-			if (ans != null) {
-				g.remove_node(ans.getKey());
-				g.printGraph();
-			}
-			isRemoveNode=0;
-			isAddNode=0;
-		}
 
 	}
 	/**

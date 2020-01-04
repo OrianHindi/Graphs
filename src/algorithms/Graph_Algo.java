@@ -76,16 +76,16 @@ public class Graph_Algo implements graph_algorithms {
 		Collection<node_data> s = copied.getV();
 		Iterator it = s.iterator();
 		node_data temp = (node_data) it.next();
-		DFSUtil(temp);
+		DFSUtil(copied,temp);
 		for (node_data node : s) {
 			if (node.getTag() == 0) return false;
 		}
 		transPose(copied);
 		tagZero(copied);
-		Collection<node_data> s1 = copied.getV();
+	    Collection<node_data> s1 = copied.getV();
 		Iterator it1 = s1.iterator();
 		node_data temp1 = (node_data) it1.next();
-		DFSUtil(temp1);
+		DFSUtil(copied,temp1);
 		for (node_data node1 : s1) {
 			if (node1.getTag() == 0) return false;
 		}
@@ -103,13 +103,13 @@ public class Graph_Algo implements graph_algorithms {
 
 	}
 
-	private void DFSUtil(node_data n) {
+	private void DFSUtil(graph copy,node_data n) {
 		n.setTag(1);
-		Collection<edge_data> temp = this.GA.getE(n.getKey());
+		Collection<edge_data> temp = copy.getE(n.getKey());
 		if (temp != null) {
 			for (edge_data edge : temp) {
-				if (this.GA.getNode(edge.getDest()) != null && this.GA.getE(edge.getDest()) != null && this.GA.getNode(edge.getDest()).getTag() == 0) {
-					DFSUtil(this.GA.getNode(edge.getDest()));
+				if (copy.getNode(edge.getDest()) != null && copy.getE(edge.getDest()) != null && copy.getNode(edge.getDest()).getTag() == 0) {
+					DFSUtil(copy,copy.getNode(edge.getDest()));
 				}
 			}
 		}
@@ -189,7 +189,7 @@ public class Graph_Algo implements graph_algorithms {
 		this.shortestPathDist(src, dest);
 		if(this.GA.getNode(src).getWeight() == Integer.MAX_VALUE || this.GA.getNode(dest).getWeight() == Integer.MAX_VALUE){
 			System.out.print("There is not a path between the nodes.");
-			return ans;
+			return null;
 		}
 		graph copied = this.copy();
 		transPose(copied);
@@ -221,7 +221,7 @@ public class Graph_Algo implements graph_algorithms {
 		int targetSize = targets.size();
 		while(!targets.isEmpty()) {
 			double minWeight = Integer.MAX_VALUE;
-			int geti=0;
+			int geti=-1;
 			for (int j = 0; j <targetSize ; j++) {
 				if(shortestPathDist(help,targets.get(j)) !=0 &&shortestPathDist(help,targets.get(j))<minWeight || targets.size()==1 && shortestPathDist(help,targets.get(j)) ==0) {
 					minWeight = shortestPathDist(help, targets.get(j));
@@ -229,6 +229,7 @@ public class Graph_Algo implements graph_algorithms {
 				}
 			}
 			List<node_data> ans2 = new ArrayList<>();
+			if(geti==-1) return null;
 			if(targets.size()>1) {
 				ans2 = shortestPath(help, geti);
 				ans.addAll(ans2);

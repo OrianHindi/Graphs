@@ -8,6 +8,7 @@ import java.awt.*;
 import java.io.Serializable;
 import java.security.AlgorithmConstraints;
 import java.util.*;
+import java.util.List;
 
 /**
  * Fixes:
@@ -255,10 +256,29 @@ public class DGraph implements graph , Serializable {
 		G.init(Dg);
 		System.out.println("Distance betwenn 1-6 is :" + G.shortestPathDist(node1.getKey(),node6.getKey()));
 		System.out.println("Distance between 6-7 is : " + G.shortestPathDist(node6.getKey(),node7.getKey()));
-		boolean temp = G.isConnected();
-		System.out.println("The graph is Connected :" + temp);
+		System.out.println("Distance between 4-1 is : " + G.shortestPathDist(node4.getKey(),node1.getKey()));
+		System.out.println("Distance between 7-9 is : " + G.shortestPathDist(node7.getKey(),node9.getKey()));
+		System.out.println("Distance between 3-2 is : " + G.shortestPathDist(node3.getKey(),node2.getKey()));
+
+		System.out.println("The graph is Connected :" + G.isConnected());
 		System.out.println("The shortest path between 5-10 is :" + G.shortestPath(node5.getKey(),node10.getKey()));
-	//	List<node_data> qqqq =  p.TSP(r);
+		System.out.println("The shortest path between 10-1 is :" + G.shortestPath(node10.getKey(),node1.getKey()));
+		System.out.println("The shortest path between 7-2 is :" + G.shortestPath(node7.getKey(),node2.getKey()));
+		System.out.println("The shortest path between 1-9 is :" + G.shortestPath(node1.getKey(),node9.getKey()));
+
+		List<Integer> ans = new LinkedList<>();
+		ans.add(1);
+		ans.add(7);
+		ans.add(3);
+		ans.add(10);
+		List<Integer> ans2 = new LinkedList<>();
+		ans2.add(1);
+		ans2.add(10);
+		ans2.add(4);
+		ans2.add(5);
+		System.out.println("TSP[1,7,3,10] is: " +  G.TSP(ans));
+		System.out.println("TSP[10,1,4,5] is : " + G.TSP(ans2));
+		//	List<node_data> qqqq =  p.TSP(r);
 //		System.out.println(p.isConnected());
 //		System.out.println("r");
 //		Point3D x = new Point3D(14,4,0);

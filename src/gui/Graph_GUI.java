@@ -18,7 +18,7 @@ public class Graph_GUI extends Thread {
     public static Graph_Algo graph_algo= new Graph_Algo();
     private static Range xRange= new Range(0,0);
     private static Range yRange= new Range(0,0);
-    private double ModeCount=0;
+    private int ModeCount=0;
 
 
     public Graph_GUI (){
@@ -225,7 +225,6 @@ public class Graph_GUI extends Thread {
     public List<node_data> TSP(List<Integer> targets){
         graph_algo.init(graph);
         return graph_algo.TSP(targets);
-
     }
     public void showPath(ArrayList<node_data> ans){
         StdDraw.setPenRadius(0.15);
