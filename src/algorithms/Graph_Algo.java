@@ -1,10 +1,10 @@
 package algorithms;
-
 import dataStructure.*;
-
 import java.io.*;
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * This empty class represents the set of graph-theory algorithms
@@ -13,32 +13,48 @@ import java.util.*;
  *
  */
 public class Graph_Algo implements graph_algorithms {
-
 	private graph GA;
 
-
+	//constructor
 	public Graph_Algo() {
 		this.GA = new DGraph();
 	}
 
+	/**
+	 * Init this set of algorithms on the parameter - graph.
+	 * @param g
+	 */
 	@Override
 	public void init(graph g) {
 		this.GA = g;
 	}
 
+	/**
+	 * Init a graph from file
+	 * @param file_name
+	 */
 	@Override
 	public void init(String file_name) { deserialize(file_name); }
 
+	/** Saves the graph to a file.
+	 *
+	 * @param file_name
+	 */
 	@Override
 	public void save(String file_name)  {
 		serialize(file_name);
 	}
 
+	/**
+	 * Serialization is a mechanism of converting the state of an object into a byte stream.
+	 * @param file_name
+	 */
 	private void serialize(String file_name) {
+		//Saving of object in a file
 		try {
 			FileOutputStream file = new FileOutputStream(file_name);
 			ObjectOutputStream out = new ObjectOutputStream(file);
-
+			// Method for serialization of object
 			out.writeObject(this.GA);
 
 			out.close();
@@ -48,14 +64,18 @@ public class Graph_Algo implements graph_algorithms {
 		} catch (IOException e) {
 			System.err.println("IOException is caught,Object didnt save.");
 		}
-
 	}
 
+	/**Deserialization is the reverse process where the byte stream is used to recreate the actual Java object in memory
+	 *
+	 * @param file_name
+	 */
 	private void deserialize(String file_name) {
+		// Reading the object from a file
 		try {
 			FileInputStream file = new FileInputStream(file_name);
 			ObjectInputStream in = new ObjectInputStream(file);
-
+			// Method for deserialization of object
 			this.GA = (graph) in.readObject();
 
 			in.close();
@@ -69,6 +89,11 @@ public class Graph_Algo implements graph_algorithms {
 		}
 	}
 
+	/**
+	 * Returns true if and only if (iff) there is a valid path from EVREY node to each
+	 * other node. NOTE: assume directional graph - a valid path (a-->b) does NOT imply a valid path (b-->a).
+	 * @return
+	 */
 	@Override
 	public boolean isConnected() {
 		graph copied = this.copy();
@@ -93,6 +118,10 @@ public class Graph_Algo implements graph_algorithms {
 		return true;
 	}
 
+	/**
+	 * this function sets all nodes to zero
+	 * @param g
+	 */
 	private void tagZero(graph g) {
 		Collection<node_data> temp = g.getV();
 		for (node_data node : temp) {
@@ -100,9 +129,14 @@ public class Graph_Algo implements graph_algorithms {
 		}
 	}
 	private void edgeZero(graph g){
-
 	}
 
+	/**
+	 *  algorithm for traversing or searching tree or graph data structures. The algorithm starts
+	 *  at the root node and explores as far as possible along each branch before backtracking.
+	 * @param copy
+	 * @param n
+	 */
 	private void DFSUtil(graph copy,node_data n) {
 		n.setTag(1);
 		Collection<edge_data> temp = copy.getE(n.getKey());
@@ -115,6 +149,11 @@ public class Graph_Algo implements graph_algorithms {
 		}
 	}
 
+	/**
+	 * returns another directed graph on the same set of vertices with all
+	 * of the edges reversed compared to the orientation of the corresponding edges in G
+	 * @param g
+	 */
 	private void transPose(graph g) {
 		Iterator it = g.getV().iterator();
 		while (it.hasNext()) {
@@ -153,7 +192,12 @@ public class Graph_Algo implements graph_algorithms {
 		}
 	}
 
-
+	/**
+	 * returns the length of the shortest path between src to dest
+	 * @param src - start node
+	 * @param dest - end (target) node
+	 * @return
+	 */
 	@Override
 	public double shortestPathDist(int src, int dest) {
 		if(src== dest ) return 0;
@@ -182,7 +226,14 @@ public class Graph_Algo implements graph_algorithms {
 		}
 	}
 
-
+	/**
+	 * returns the the shortest path between src to dest - as an ordered List of nodes:
+	 * src--> n1-->n2-->...dest
+	 * see: https://en.wikipedia.org/wiki/Shortest_path_problem
+	 * @param src - start node
+	 * @param dest - end (target) node
+	 * @return
+	 */
 	@Override
 	public List<node_data> shortestPath(int src, int dest) {
 		List<node_data> ans = new ArrayList<>();
@@ -214,6 +265,14 @@ public class Graph_Algo implements graph_algorithms {
 		return ans2;
 	}
 
+	/**
+	 * computes a relatively short path which visit each node in the targets List.
+	 * Note: this is NOT the classical traveling salesman problem,
+	 * as you can visit a node more than once, and there is no need to return to source node -
+	 * just a simple path going over all nodes in the list.
+	 * @param targets
+	 * @return
+	 */
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
 		List<node_data> ans = new ArrayList<>();
@@ -249,6 +308,10 @@ public class Graph_Algo implements graph_algorithms {
 		return ans;
 	}
 
+	/**
+	 * Compute a deep copy of this graph.
+	 * @return
+	 */
 	@Override
 	public graph copy() {
 		graph copy = new DGraph();
