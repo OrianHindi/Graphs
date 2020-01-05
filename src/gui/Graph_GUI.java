@@ -69,7 +69,6 @@ public class Graph_GUI extends Thread {
 
     public  void remove_edge (int src,int dest) {
         graph.removeEdge(src, dest);
-
     }
 
     public void remove_node (int key) {     //change key
@@ -115,7 +114,7 @@ public class Graph_GUI extends Thread {
     public void run(){
         while(true) {
             if (ModeCount != graph.getMC()) {
-                printGraph();
+                openCanvas();
                 ModeCount = graph.getMC();
             }
         }
