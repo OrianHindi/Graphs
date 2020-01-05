@@ -58,9 +58,8 @@ public class Graph_GUI extends Thread {
                 key=node.getKey();
             }
         }
-        if(key==Integer.MIN_VALUE) key=0;
+        if(key==Integer.MIN_VALUE) key =0;
         Node.keyNum=++key;
-
     }
 
     public void add_edge (int src,int dest,double weight) {
@@ -107,10 +106,6 @@ public class Graph_GUI extends Thread {
         this.printGraph();
     }
 
-    private void openCanvasDef(){
-        StdDraw.setCanvasSize(1000,1000);
-
-    }
     public void run(){
         while(true) {
             if (ModeCount != graph.getMC()) {
@@ -160,16 +155,30 @@ public class Graph_GUI extends Thread {
         }
     }
 
+
+    /**
+     * open the window of the graph printed
+     *
+     */
     public void openCanvas(){
         StdDraw.setCanvasSize(800,800);
         Range x = findRangeX();
         Range y = findRangeY();
-        StdDraw.setXscale(x.get_min()-100,x.get_max()+100);
-        StdDraw.setYscale(y.get_min()-100,y.get_max()+100);
+        StdDraw.setXscale(x.get_min()-(x.get_max()-x.get_min())*0.2,x.get_max()*1.1);
+        StdDraw.setYscale(y.get_min()-(y.get_max()-y.get_min())*0.2,y.get_max()*1.1);
         printGraph();
     }
+
+    /**
+     * this function prints the graph
+     *
+     */
     public  void printGraph(){
         StdDraw.clear();
+        Range xx = findRangeX();
+        Range yy = findRangeY();
+        double rightScaleX = ((xx.get_max()-xx.get_min())*0.04);
+        double rightScaleY =  ((yy.get_max()-yy.get_min())*0.04);
         StdDraw.setPenColor(Color.BLUE);
         StdDraw.setPenRadius(0.15);
         DGraph d = this.graph;
@@ -178,8 +187,8 @@ public class Graph_GUI extends Thread {
             while (it.hasNext()) {
                 node_data temp = (node_data)it.next();
                 Point3D p = temp.getLocation();
-                StdDraw.filledCircle(p.x(), p.y(), 0.8);
-                StdDraw.text(p.x(), p.y() + 1, "" + temp.getKey());
+                StdDraw.filledCircle(p.x(), p.y(),rightScaleX*0.2);
+                StdDraw.text(p.x(), p.y() +rightScaleX*0.3, "" + temp.getKey());
             }
             StdDraw.setPenColor(Color.BLACK);
             StdDraw.setPenRadius(0.003);
@@ -209,7 +218,7 @@ public class Graph_GUI extends Thread {
                             StdDraw.setPenRadius(0.15);
                             double x1 = 0.1*srcP.x()+0.9*dstP.x();
                             double y1 = 0.1*srcP.y()+0.9*dstP.y();
-                            StdDraw.filledCircle(x1,y1,0.8);
+                            StdDraw.filledCircle(x1,y1,rightScaleX*0.2);
 
                         }
 
@@ -241,52 +250,4 @@ public class Graph_GUI extends Thread {
 
     }
 
-    public static void main(String[] args) {
-        Point3D x = new Point3D(-400,300,0);
-        Point3D x2 = new Point3D(300,150,0);
-        Point3D x3 = new Point3D(380,-300,0);
-        Point3D x4 = new Point3D(150,-400,0);
-        Point3D x5 = new Point3D(0,-450,0);
-        Point3D x6 = new Point3D(200,-300,0);
-        Point3D x7 = new Point3D(-400,-150,0);
-        Point3D x8 = new Point3D(-400,120,0);
-        Node a1 = new Node(x);
-        Node a2 = new Node(x2);
-        Node a3 = new Node(x3);
-        Node a4 = new Node(x4);
-        Node a5 = new Node(x5);
-        Node a6 = new Node(x6);
-        Node a7 = new Node(x7);
-        Node a8 = new Node(x8);
-        DGraph d = new DGraph();
-        d.addNode(a1);
-        d.addNode(a2);
-        d.addNode(a3);
-        d.addNode(a4);
-        d.addNode(a5);
-        d.addNode(a6);
-        d.addNode(a7);
-        d.addNode(a8);
-        d.connect(1,2,5);
-        d.connect(1,5,2);
-        d.connect(1,3,6);
-        d.connect(1,6,5);
-        d.connect(3,4,7);
-        d.connect(2,8,8);
-        d.connect(2,7,3);
-        d.connect(5,1,5);
-        d.connect(5,6,2);
-        d.connect(6,1,3);
-        d.connect(6,5,3);
-        d.connect(6,7,3);
-        d.connect(7,6,3);
-        Graph_GUI p = new Graph_GUI(d);
-        d.connect(2,3,40);
-        d.connect(2,4,5);
-        d.connect(4,6,7);
-        d.connect(4,3,6);
-
-
-
-    }
 }

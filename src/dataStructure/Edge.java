@@ -10,7 +10,8 @@ public class Edge implements edge_data, Serializable {
     private int tag;
 
    //-----------Constructors------------
-    public Edge(int src,int dest,double weight){
+    public Edge(int src,int dest,double weight) {
+        if(weight<0) throw new RuntimeException("Weight of edge cant be negative.");
         this.src=src;
         this.dest=dest;
         this.weight=weight;

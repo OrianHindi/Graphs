@@ -104,7 +104,8 @@ public class DGraphTest {
 
         p.addNode(a1);
         p.addNode(a2);
-        assertEquals(p.getV().toString(), "[7, 8]");
+        String s = "[" +a1.getKey() + ", " + a2.getKey() + "]";
+        assertEquals(s,p.getV().toString());
     }
 
     @Test
@@ -117,7 +118,7 @@ public class DGraphTest {
         p.addNode(a2);
 
         p.connect(a1.getKey(),a2.getKey(),1);
-        assertEquals(p.getE(a1.getKey()).toString(), "[<7,8,1.0>]");
+        assertEquals("[<" + a1.getKey() + "," + a2.getKey() + ",1.0>]" ,p.getE(a1.getKey()).toString());
     }
 
     @Test

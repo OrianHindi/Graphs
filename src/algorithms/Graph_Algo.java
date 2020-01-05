@@ -19,6 +19,9 @@ public class Graph_Algo implements graph_algorithms {
 	public Graph_Algo() {
 		this.GA = new DGraph();
 	}
+	public Graph_Algo(graph g){
+		init(g);
+	}
 
 	/**
 	 * Init this set of algorithms on the parameter - graph.
@@ -96,6 +99,7 @@ public class Graph_Algo implements graph_algorithms {
 	 */
 	@Override
 	public boolean isConnected() {
+		if(this.GA.nodeSize() ==1 || this.GA.nodeSize()==0) return true;
 		graph copied = this.copy();
 		tagZero(copied);
 		Collection<node_data> s = copied.getV();
@@ -128,9 +132,6 @@ public class Graph_Algo implements graph_algorithms {
 			node.setTag(0);
 		}
 	}
-	private void edgeZero(graph g){
-	}
-
 	/**
 	 *  algorithm for traversing or searching tree or graph data structures. The algorithm starts
 	 *  at the root node and explores as far as possible along each branch before backtracking.
@@ -275,34 +276,44 @@ public class Graph_Algo implements graph_algorithms {
 	 */
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
+		List<Integer> targets1 = new ArrayList<>();
 		List<node_data> ans = new ArrayList<>();
-		int help=targets.get(0);
-		int targetSize = targets.size();
-		while(!targets.isEmpty()) {
+		for (Integer target: targets) {
+			if(!targets1.contains(target)){
+				targets1.add(target);
+			}
+		}
+		if(targets1.size()==1){
+			ans.add(this.GA.getNode(targets.get(0)));
+			return ans;
+		}
+		int help=targets1.get(0);
+		int targetSize = targets1.size();
+		while(!targets1.isEmpty()) {
 			double minWeight = Integer.MAX_VALUE;
 			int geti=-1;
 			for (int j = 0; j <targetSize ; j++) {
-				if(shortestPathDist(help,targets.get(j)) !=0 &&shortestPathDist(help,targets.get(j))<minWeight || targets.size()==1 && shortestPathDist(help,targets.get(j)) ==0) {
-					minWeight = shortestPathDist(help, targets.get(j));
-					geti = targets.get(j);
+				if(shortestPathDist(help,targets1.get(j)) !=0 &&shortestPathDist(help,targets1.get(j))<minWeight || targets1.size()==1 && shortestPathDist(help,targets1.get(j)) ==0) {
+					minWeight = shortestPathDist(help, targets1.get(j));
+					geti = targets1.get(j);
 				}
 			}
 			List<node_data> ans2 = new ArrayList<>();
 			if(geti==-1) return null;
-			if(targets.size()>1) {
+			if(targets1.size()>1) {
 				ans2 = shortestPath(help, geti);
 				ans.addAll(ans2);
-				targets.remove((Integer) help);
+				targets1.remove((Integer) help);
 				targetSize--;
 			}
 			else{
-				targets.remove((Integer)geti);
+				targets1.remove((Integer)geti);
 			}
 			help=geti;
 		}
-		for (int i = 0; i <ans.size()-1 ; i++) {
-			if(ans.get(i)==ans.get(i+1)){
-				ans.remove(i);
+		for (int ii = 0; ii <ans.size()-1 ; ii++) {
+			if(ans.get(ii)==ans.get(ii+1)){
+				ans.remove(ii);
 			}
 		}
 		return ans;
